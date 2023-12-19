@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { CurrentComponent } from './current/current.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [CurrentComponent],
+  template: `<div class="container-fluid"><app-current/></div>`
 })
 export class AppComponent {
   title = 'weather-dashboard';

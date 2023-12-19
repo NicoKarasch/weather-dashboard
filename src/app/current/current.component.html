@@ -1,0 +1,25 @@
+<div class="card h-100" *ngIf="currentWeather">
+    <div class="card-header">Aktuelle Werte <small>{{currentWeather.timeStamp | date:'HH:mm:ss'}}</small></div>
+    <div class="card-body">
+        <div class="clearfix">
+            <h1 class="float-start me-5 mb-0">
+                <img src="{{ 'assets/openweathermap/' + currentWeather?.icon + '.svg' }}" height="100"> {{currentWeather.temperature | number: '1.0-0'}} °C
+            </h1>
+            <p class="card-text"><strong>{{currentWeather.description}}</strong><br>Gefühlt: {{currentWeather.feelsLike | number: '1.0-0'}} °C</p>
+            <p class="card-text lead">{{currentWeather.summary}}</p>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <current-detail name="Wind" value="{{currentWeather.windSpeed | number: '1.0-0'}} m/s">
+                <img src="assets/compass.svg" style="transform: rotate({{currentWeather.windDirection}}deg)" height="30">
+            </current-detail>
+            <current-detail name="Luftfeuchte" value="{{currentWeather.humidity}} %"/>
+            <current-detail name="Luftdruck" value="{{currentWeather.pressure}} hPa"/>
+            <current-detail name="Taupunkt" value="{{currentWeather.dewPoint | number: '1.0-0'}} °C"/>
+            <current-detail name="Bewölkung" value="{{currentWeather.clouds}} %"/>
+            <current-detail name="UV-Index" value="{{currentWeather.uVIndex | number: '1.0-0' }}"/>
+            <current-detail name="Sicht" value="{{currentWeather.visibility | number: '1.0-0'}} km"/>
+        </div>
+    </div>
+</div>
