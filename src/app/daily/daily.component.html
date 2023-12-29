@@ -1,0 +1,83 @@
+<div class="card-group" *ngIf="weather">
+    <ng-template [ngTemplateOutlet]="legend"></ng-template>
+    <div class="card h-100" *ngFor="let day of weather; let i = index">
+        <div class="card-header hstack pe-3">
+            <div class="me-auto">{{ i == 0 ? 'Heute' : day.timeStamp | date:'EEEE' }} <small>{{ day.timeStamp | date:'d.M.' }}</small></div>
+            <div><img src="assets/moon-{{weatherService.getMoonIcon(day.moonPhase)}}.svg" class="moon" title="{{weatherService.getMoonPhase(day.moonPhase)}}"></div>
+        </div>
+        <div class="card-body text-center pt-1">
+            <img src="assets/openweathermap/{{day.icon}}.svg" class="icon"><br>
+            {{day.description}}
+            <h4 class="mb-0">{{day.temperature | number:'1.0-0'}} °C</h4>
+            <small>{{day.minTemperature | number:'1.0-0'}} °C</small>
+        </div>
+        <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">
+                <img src="assets/wind-beaufort-{{weatherService.getBeaufort(day.windSpeed)}}.svg" class="beaufort">
+                {{day.windSpeed*3.6 | number: '1.0-0'}} km/h<img src="assets/compass.svg" style="transform: rotate({{day.windDirection+180}}deg)" class="direction">({{weatherService.getWindDirection(day.windDirection)}})
+            </li>
+            <li class="list-group-item">
+                {{day.humidity}} %
+            </li>
+            <li class="list-group-item">
+                {{day.pop|number:'1.0-0'}} %<span *ngIf="day.rain"><img src="assets/raindrop.svg">{{day.rain | number:'1.1-1'}} mm</span><span *ngIf="day.snow"><img src="assets/snowflake.svg">{{day.snow/10 | number:'1.1-1'}} cm</span>
+            </li>
+            <li class="list-group-item">
+                <img src="assets/sunrise.svg"> {{day.sunrise | date:'shortTime'}} <img src="assets/sunset.svg"> {{day.sunset | date:'shortTime'}}
+            </li>
+            <li class="list-group-item">
+                <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/moonrise.svg"> {{day.moonrise | date:'shortTime'}} <img src="assets/moonset.svg"> {{day.moonset | date:'shortTime'}}</span>
+                <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/moonset.svg"> {{day.moonset | date:'shortTime'}} <img src="assets/moonrise.svg"> {{day.moonrise | date:'shortTime'}}</span>
+            </li>
+            <li class="list-group-item">
+                {{day.pressure}} hPa
+            </li>
+            <li class="list-group-item">
+                {{day.dewPoint | number:'1.0-0'}} °C
+            </li>
+            <li class="list-group-item">
+                {{day.clouds}} %
+            </li>
+            <li class="list-group-item">
+                {{day.uVIndex | number:'1.2-2'}}
+            </li>
+        </ul>
+    </div>
+    <ng-template [ngTemplateOutlet]="legend"></ng-template>
+</div>
+
+<ng-template #legend>
+    <div class="card h-100" id="legend">
+        <div class="card-header">&nbsp;</div>
+        <div class="card-body">&nbsp;</div>
+        <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">
+                <img src="assets/windsock.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/humidity.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/umbrella.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/horizon.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/moon-full.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/barometer.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/thermometer.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/cloudy.svg">
+            </li>
+            <li class="list-group-item">
+                <img src="assets/uv-index-0.svg">
+            </li>
+        </ul>
+    </div>
+</ng-template>

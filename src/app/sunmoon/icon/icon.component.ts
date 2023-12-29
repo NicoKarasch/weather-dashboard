@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   host: {'class': 'text-center'},
-  template: '<img src="assets/{{icon}}.svg" height="60"><br>{{date.getTime() > 0 ? (date | date:"HH:mm") : "?"}}'
+  template: '<img src="assets/{{icon}}.svg" height="80" style="margin: -10px; margin-bottom: -18px;"><br>{{date.getTime() > 0 ? (date | date:"HH:mm") : "?"}}'
 })
 export class IconComponent {
   @Input({ required: true }) icon = '';

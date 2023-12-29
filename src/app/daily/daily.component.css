@@ -1,0 +1,38 @@
+li {
+    padding: 0;
+    padding-top: 4px;
+    min-height: 35px;
+}
+
+#legend li {
+    padding-top: 0;
+}
+
+#legend img {
+    margin-top: -3px;
+}
+
+img:not(.icon) {
+    height: 40px;
+    margin: -5px;
+}
+
+img.moon {
+    height: 30px;
+    margin-top: -10px;
+}
+
+img.icon {
+    height: 80px;
+}
+
+img.beaufort {
+    margin-top: -14px;
+}
+img.direction {
+    margin-top: -7px;
+}
+
+div#legend {
+    max-width: 40px;
+}

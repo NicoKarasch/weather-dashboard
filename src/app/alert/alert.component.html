@@ -1,0 +1,13 @@
+<div class="alert alert-danger d-flex align-items-center" *ngFor="let alert of alerts; let i = index">
+    <img src="./assets/{{getIcon(alert.tags)}}.svg">
+    <div>
+        <figure class="mb-0">
+            <blockquote class="blockquote">
+              <p>{{alert.message}}</p>
+            </blockquote>
+            <figcaption class="blockquote-footer mb-0">
+                Gültig: {{times[i]}} - <cite title="Source Title">{{alert.from}}</cite>
+            </figcaption>
+          </figure>
+    </div>
+</div>

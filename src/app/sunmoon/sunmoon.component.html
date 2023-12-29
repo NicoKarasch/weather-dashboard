@@ -1,5 +1,5 @@
 <div class="card h-100" *ngIf="currentWeather">
-    <div class="card-header">Sonne/Mond <small>{{currentWeather.timeStamp | date:'d. MMM.'}}</small></div>
+    <div class="card-header">Sonne & Mond <small>{{currentWeather.timeStamp | date:'d. MMM'}}</small></div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex align-items-end">
             <app-icon icon="sunrise" [date]="currentWeather.sunrise"/>
@@ -12,17 +12,19 @@
             <app-icon icon="sunset" [date]="currentWeather.sunset"/>
         </li>
         <li class="list-group-item d-flex align-items-end">
-            <app-icon icon="moonrise" [date]="currentWeather.moonrise"/>
+            <div *ngIf="currentWeather.moonrise.getTime() < currentWeather.moonset.getTime(); then moonriseIcon else moonsetIcon"></div>
             <div class="p-2 flex-grow-1 text-center">
                 <div class="progress" role="progressbar">
                     <div class="progress-bar bg-secondary" style="width: {{moonPerc}}%">{{moonLeft}}</div>
                 </div>
                 <small>{{currentWeather.moonset.getTime() > 0 ? getDateDiff(currentWeather.moonrise, currentWeather.moonset) : '&nbsp;'}}</small>
             </div>
-            <app-icon icon="moonset" [date]="currentWeather.moonset"/>
+            <div *ngIf="currentWeather.moonrise.getTime() > currentWeather.moonset.getTime(); then moonriseIcon else moonsetIcon"></div>
         </li>
         <li class="list-group-item text-center">
-            <img src="assets/moon-{{getMoonIcon(currentWeather.moonPhase)}}.svg" height="40">{{getMoonPhase(currentWeather.moonPhase)}}
+            <img src="assets/moon-{{weatherService.getMoonIcon(currentWeather.moonPhase)}}.svg" height="60" style="margin: -10px;"> {{weatherService.getMoonPhase(currentWeather.moonPhase)}}
         </li>
     </ul>
+    <ng-template #moonriseIcon><app-icon icon="moonrise" [date]="currentWeather.moonrise"/></ng-template>
+    <ng-template #moonsetIcon><app-icon icon="moonset" [date]="currentWeather.moonset"/></ng-template>
 </div>

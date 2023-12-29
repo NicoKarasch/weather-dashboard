@@ -3,7 +3,7 @@
     <div class="card-body">
         <div class="clearfix">
             <h1 class="float-start me-5 mb-0">
-                <img src="{{ 'assets/openweathermap/' + currentWeather?.icon + '.svg' }}" height="100"> {{currentWeather.temperature | number: '1.0-0'}} °C
+                <img src="{{ 'assets/openweathermap/' + currentWeather.icon + '.svg' }}" height="140" style="margin: -20px"> {{currentWeather.temperature | number: '1.0-0'}} °C
             </h1>
             <p class="card-text"><strong>{{currentWeather.description}}</strong><br>Gefühlt: {{currentWeather.feelsLike | number: '1.0-0'}} °C</p>
             <p class="card-text lead">{{currentWeather.summary }}</p>
@@ -11,8 +11,8 @@
     </div>
     <div class="card-footer">
         <div class="row">
-            <current-detail icon="wind-beaufort-{{getBeaufort(currentWeather.windSpeed)}}" name="Wind" value="{{currentWeather.windSpeed | number: '1.0-0'}} m/s">
-                <img src="assets/compass.svg" style="transform: rotate({{currentWeather.windDirection+180}}deg)" height="30">
+            <current-detail icon="wind-beaufort-{{weatherService.getBeaufort(currentWeather.windSpeed)}}" name="Wind ({{weatherService.getWindDirection(currentWeather.windDirection)}})" value="{{currentWeather.windSpeed*3.6 | number: '1.0-0'}} km/h">
+                <img src="assets/compass.svg" style="transform: rotate({{currentWeather.windDirection+180}}deg)" height="40" style="margin: -5px">
             </current-detail>
             <current-detail icon="humidity" name="Luftfeuchte" value="{{currentWeather.humidity}} %"/>
             <current-detail icon="barometer" name="Luftdruck" value="{{currentWeather.pressure}} hPa"/>
