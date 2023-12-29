@@ -3,31 +3,31 @@
     <div class="card h-100" *ngFor="let day of weather; let i = index">
         <div class="card-header hstack pe-3">
             <div class="me-auto">{{ i == 0 ? 'Heute' : day.timeStamp | date:'EEEE' }} <small>{{ day.timeStamp | date:'d.M.' }}</small></div>
-            <div><img src="assets/moon-{{weatherService.getMoonIcon(day.moonPhase)}}.svg" class="moon" title="{{weatherService.getMoonPhase(day.moonPhase)}}"></div>
+            <div><img src="assets/icons/moon-{{weatherService.getMoonIcon(day.moonPhase)}}.svg" class="moon" title="{{weatherService.getMoonPhase(day.moonPhase)}}"></div>
         </div>
         <div class="card-body text-center pt-1">
-            <img src="assets/openweathermap/{{day.icon}}.svg" class="icon"><br>
+            <img src="assets/icons/openweathermap/{{day.icon}}.svg" class="icon"><br>
             {{day.description}}
             <h4 class="mb-0">{{day.temperature | number:'1.0-0'}} °C</h4>
             <small>{{day.minTemperature | number:'1.0-0'}} °C</small>
         </div>
         <ul class="list-group list-group-flush text-center">
             <li class="list-group-item">
-                <img src="assets/wind-beaufort-{{weatherService.getBeaufort(day.windSpeed)}}.svg" class="beaufort">
-                {{day.windSpeed*3.6 | number: '1.0-0'}} km/h<img src="assets/compass.svg" style="transform: rotate({{day.windDirection+180}}deg)" class="direction">({{weatherService.getWindDirection(day.windDirection)}})
+                <img src="assets/icons/wind-beaufort-{{weatherService.getBeaufort(day.windSpeed)}}.svg" class="beaufort">
+                {{day.windSpeed*3.6 | number: '1.0-0'}} km/h<img src="assets/icons/compass.svg" style="transform: rotate({{day.windDirection+180}}deg)" class="direction">({{weatherService.getWindDirection(day.windDirection)}})
             </li>
             <li class="list-group-item">
                 {{day.humidity}} %
             </li>
             <li class="list-group-item">
-                {{day.pop|number:'1.0-0'}} %<span *ngIf="day.rain"><img src="assets/raindrop.svg">{{day.rain | number:'1.1-1'}} mm</span><span *ngIf="day.snow"><img src="assets/snowflake.svg">{{day.snow/10 | number:'1.1-1'}} cm</span>
+                {{day.pop|number:'1.0-0'}} %<span *ngIf="day.rain"><img src="assets/icons/raindrop.svg">{{day.rain | number:'1.1-1'}} mm</span><span *ngIf="day.snow"><img src="assets/icons/snowflake.svg">{{day.snow/10 | number:'1.1-1'}} cm</span>
             </li>
             <li class="list-group-item">
-                <img src="assets/sunrise.svg"> {{day.sunrise | date:'shortTime'}} <img src="assets/sunset.svg"> {{day.sunset | date:'shortTime'}}
+                <img src="assets/icons/sunrise.svg"> {{day.sunrise | date:'shortTime'}} <img src="assets/icons/sunset.svg"> {{day.sunset | date:'shortTime'}}
             </li>
             <li class="list-group-item">
-                <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/moonrise.svg"> {{day.moonrise | date:'shortTime'}} <img src="assets/moonset.svg"> {{day.moonset | date:'shortTime'}}</span>
-                <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/moonset.svg"> {{day.moonset | date:'shortTime'}} <img src="assets/moonrise.svg"> {{day.moonrise | date:'shortTime'}}</span>
+                <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/icons/moonrise.svg"> {{day.moonrise | date:'shortTime'}} <img src="assets/icons/moonset.svg"> {{day.moonset | date:'shortTime'}}</span>
+                <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/icons/moonset.svg"> {{day.moonset | date:'shortTime'}} <img src="assets/icons/moonrise.svg"> {{day.moonrise | date:'shortTime'}}</span>
             </li>
             <li class="list-group-item">
                 {{day.pressure}} hPa
@@ -52,31 +52,31 @@
         <div class="card-body">&nbsp;</div>
         <ul class="list-group list-group-flush text-center">
             <li class="list-group-item">
-                <img src="assets/windsock.svg">
+                <img src="assets/icons/windsock.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/humidity.svg">
+                <img src="assets/icons/humidity.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/umbrella.svg">
+                <img src="assets/icons/umbrella.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/horizon.svg">
+                <img src="assets/icons/horizon.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/moon-full.svg">
+                <img src="assets/icons/moon-full.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/barometer.svg">
+                <img src="assets/icons/barometer.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/thermometer.svg">
+                <img src="assets/icons/thermometer.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/cloudy.svg">
+                <img src="assets/icons/cloudy.svg">
             </li>
             <li class="list-group-item">
-                <img src="assets/uv-index-0.svg">
+                <img src="assets/icons/uv-index-0.svg">
             </li>
         </ul>
     </div>

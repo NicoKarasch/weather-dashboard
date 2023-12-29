@@ -22,7 +22,7 @@
             <div *ngIf="currentWeather.moonrise.getTime() > currentWeather.moonset.getTime(); then moonriseIcon else moonsetIcon"></div>
         </li>
         <li class="list-group-item text-center">
-            <img src="assets/moon-{{weatherService.getMoonIcon(currentWeather.moonPhase)}}.svg" height="60" style="margin: -10px;"> {{weatherService.getMoonPhase(currentWeather.moonPhase)}}
+            <img src="assets/icons/moon-{{weatherService.getMoonIcon(currentWeather.moonPhase)}}.svg" height="60" style="margin: -10px;"> {{weatherService.getMoonPhase(currentWeather.moonPhase)}}
         </li>
     </ul>
     <ng-template #moonriseIcon><app-icon icon="moonrise" [date]="currentWeather.moonrise"/></ng-template>

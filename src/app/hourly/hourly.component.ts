@@ -139,7 +139,7 @@ export class HourlyComponent implements OnInit {
 
   private getImage(icon: String): HTMLImageElement {
     const img = new Image(30,30);
-    img.src = 'assets/openweathermap/' + icon + '.svg';
+    img.src = 'assets/icons/openweathermap/' + icon + '.svg';
     return img;
   }
 }
