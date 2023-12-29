@@ -1,5 +1,5 @@
 <div class="card h-100" *ngIf="currentWeather">
-    <div class="card-header">Aktuelle Werte <small>{{currentWeather.timeStamp | date:'HH:mm'}}</small></div>
+    <div class="card-header">Aktuelle Werte <small>{{currentWeather.timeStamp | date:'shortTime'}}</small></div>
     <div class="card-body">
         <div class="clearfix">
             <h1 class="float-start me-5 mb-0">
