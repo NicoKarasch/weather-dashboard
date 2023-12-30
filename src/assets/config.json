@@ -1,0 +1,55 @@
+{
+    "darkMode": false,
+    "location": "New York City",
+    "openweathermap": {
+        "appid": "abc123",
+        "lat": 40.712778,
+        "lng": -74.005833
+    },
+    "alerts": {
+        "show": "true"
+    },
+    "current": {
+        "showWind": true,
+        "showHumidity": true,
+        "showPressure": true,
+        "showDewPoint": true,
+        "showClouds": true,
+        "showUVIndex": true,
+        "showVisibility": true
+    },
+    "sunMoon": {
+        "show": true
+    },
+    "clock": {
+        "show": true,
+        "showAnalogClock": true,
+        "showSeconds": true,
+        "showDate": true
+    },
+    "hourly": {
+        "show": true,
+        "hours": 24,
+        "windSpeed": {
+            "show": true,
+            "showWindDirection": true
+        },
+        "showPrecipitation": true,
+        "showPop": true
+    },
+    "daily": {
+        "show": true,
+        "showLegendLeft": true,
+        "showLegendRight": true,
+        "showMoonPhase": true,
+        "showWind": true,
+        "showHumidity": true,
+        "showPrecipitation": true,
+        "showSun": true,
+        "showMoon": true,
+        "showPressure": true,
+        "showDewPoint": true,
+        "showClouds": true,
+        "showUVIndex": true
+    }
+}

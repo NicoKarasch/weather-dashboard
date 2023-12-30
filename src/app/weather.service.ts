@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WeatherData } from './weatherdata';
 import { Alert } from './alert';
 import { Subject, Observable, of } from 'rxjs';
+import { ConfigService, Config } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,16 @@ export class WeatherService {
 
   private url = 'https://api.openweathermap.org/data/3.0/onecall?lat=52.459246596015404&lon=13.314200259118788&units=metric&lang=de&exclude=minutely&appid=92bf13ee6f955aac34d8f9be4c88777a';
   private testdata = '/assets/testdata.json';
+  private config: Config;
 
   private current: Subject<WeatherData> = new Subject;
   private hourly: Subject<WeatherData[]> = new Subject;
   private daily: Subject<WeatherData[]> = new Subject;
   private alerts: Subject<Alert[]> = new Subject;
 
-  constructor(){
+  constructor(private configService: ConfigService){
     this.fetchData();
+    configService.get().subscribe(config => this.config = config);
   }
 
   private async fetchData() {
