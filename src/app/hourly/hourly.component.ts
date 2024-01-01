@@ -116,7 +116,7 @@ export class HourlyComponent implements OnInit {
           },
           y: {
             display: false,
-            max: Math.max(...data)+5,
+            max: Math.max(...data)+(Math.max(...data)-Math.min(...data))*.4,
             min: Math.min(...data)-1
           }
         },
