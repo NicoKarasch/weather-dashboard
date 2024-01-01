@@ -1,9 +1,9 @@
 <div class="card-group" *ngIf="weather">
-    <ng-template [ngTemplateOutlet]="legend"></ng-template>
-    <div class="card h-100" *ngFor="let day of weather; let i = index">
+    <ng-template [ngTemplateOutlet]="legend" *ngIf="config.daily.showLegendLeft"></ng-template>
+    <div class="card h-100" *ngFor="let day of weather.slice(0, config.daily.days); first as isFirst">
         <div class="card-header hstack pe-3">
-            <div class="me-auto">{{ i == 0 ? 'Heute' : day.timeStamp | date:'EEEE' }} <small>{{ day.timeStamp | date:'d.M.' }}</small></div>
-            <div><img src="assets/icons/moon-{{weatherService.getMoonIcon(day.moonPhase)}}.svg" class="moon" title="{{weatherService.getMoonPhase(day.moonPhase)}}"></div>
+            <div class="me-auto">{{ isFirst ? 'Heute' : day.timeStamp | date:'EEEE' }} <small>{{ day.timeStamp | date:'d.M.' }}</small></div>
+            <div *ngIf="config.daily.showMoonPhase"><img src="assets/icons/moon-{{weatherService.getMoonIcon(day.moonPhase)}}.svg" class="moon" title="{{weatherService.getMoonPhase(day.moonPhase)}}"></div>
         </div>
         <div class="card-body text-center pt-1">
             <img src="assets/icons/openweathermap/{{day.icon}}.svg" class="icon"><br>
@@ -12,38 +12,38 @@
             <small>{{day.minTemperature | number:'1.0-0'}} °C</small>
         </div>
         <ul class="list-group list-group-flush text-center">
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showWind">
                 <img src="assets/icons/wind-beaufort-{{weatherService.getBeaufort(day.windSpeed)}}.svg" class="beaufort">
                 {{day.windSpeed*3.6 | number: '1.0-0'}} km/h<img src="assets/icons/compass.svg" style="transform: rotate({{day.windDirection+180}}deg)" class="direction">({{weatherService.getWindDirection(day.windDirection)}})
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showHumidity">
                 {{day.humidity}} %
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showPrecipitation">
                 {{day.pop|number:'1.0-0'}} %<span *ngIf="day.rain"><img src="assets/icons/raindrop.svg">{{day.rain | number:'1.1-1'}} mm</span><span *ngIf="day.snow"><img src="assets/icons/snowflake.svg">{{day.snow/10 | number:'1.1-1'}} cm</span>
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showSun">
                 <img src="assets/icons/sunrise.svg"> {{day.sunrise | date:'shortTime'}} <img src="assets/icons/sunset.svg"> {{day.sunset | date:'shortTime'}}
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showMoon">
                 <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/icons/moonrise.svg"> {{day.moonrise | date:'shortTime'}} <img src="assets/icons/moonset.svg"> {{day.moonset | date:'shortTime'}}</span>
                 <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/icons/moonset.svg"> {{day.moonset | date:'shortTime'}} <img src="assets/icons/moonrise.svg"> {{day.moonrise | date:'shortTime'}}</span>
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showPressure">
                 {{day.pressure}} hPa
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showDewPoint">
                 {{day.dewPoint | number:'1.0-0'}} °C
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showClouds">
                 {{day.clouds}} %
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showUVIndex">
                 {{day.uVIndex | number:'1.2-2'}}
             </li>
         </ul>
     </div>
-    <ng-template [ngTemplateOutlet]="legend"></ng-template>
+    <ng-template [ngTemplateOutlet]="legend" *ngIf="config.daily.showLegendRight"></ng-template>
 </div>
 
 <ng-template #legend>
@@ -51,31 +51,31 @@
         <div class="card-header">&nbsp;</div>
         <div class="card-body">&nbsp;</div>
         <ul class="list-group list-group-flush text-center">
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showWind">
                 <img src="assets/icons/windsock.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showHumidity">
                 <img src="assets/icons/humidity.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showPrecipitation">
                 <img src="assets/icons/umbrella.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showSun">
                 <img src="assets/icons/horizon.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showMoon">
                 <img src="assets/icons/moon-full.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showPressure">
                 <img src="assets/icons/barometer.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showDewPoint">
                 <img src="assets/icons/thermometer.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showClouds">
                 <img src="assets/icons/cloudy.svg">
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" *ngIf="config.daily.showUVIndex">
                 <img src="assets/icons/uv-index-0.svg">
             </li>
         </ul>

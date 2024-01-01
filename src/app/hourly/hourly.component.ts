@@ -5,6 +5,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { WeatherData } from '../weatherdata';
 import { WeatherService } from '../weather.service';
+import { Config, ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-hourly',
@@ -20,11 +21,13 @@ export class HourlyComponent implements OnInit {
   weather: WeatherData[] = [];
   weatherService: WeatherService = inject(WeatherService);
   public chart: any;
+  config: Config;
 
-  constructor(@Inject(LOCALE_ID) private locale: string) {
+  constructor(@Inject(LOCALE_ID) private locale: string, configService: ConfigService) {
     Chart.register(annotationPlugin);
     Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
     Chart.defaults.font.size = 14;
+    configService.get().subscribe(config => this.config = config);
   }
   
   ngOnInit(): void {
@@ -37,7 +40,7 @@ export class HourlyComponent implements OnInit {
   createChart(): void {
     const data: number[] = [];
     const annots: any[]  = [];
-    this.weather.slice(0, 24).forEach((hour, index) => {
+    this.weather.slice(0, this.config.hourly.hours).forEach((hour, index) => {
       data.push(hour.temperature);
       annots.push({
         type: 'label',
@@ -88,22 +91,26 @@ export class HourlyComponent implements OnInit {
             ticks: {
               callback: (val, index) => {
                 const hour = this.weather[index];
-                let pop = '';
-                if(hour.rain){
-                  pop = formatNumber(hour.rain, this.locale, '1.1-1') + ' mm';
+                
+                const rtn: string[] = [];
+                if(this.config.hourly.windSpeed.show){
+                  rtn.push(formatNumber(hour.windSpeed*3.6, this.locale, '1.0-0')  + ' km/h' + (this.config.hourly.windSpeed.showWindDirection ? ' (' + this.weatherService.getWindDirection(hour.windDirection) + ')' : ''));
                 }
-                if(hour.snow){
-                  pop += hour.rain ? ' / ' : '';
-                  pop += formatNumber(hour.snow/10, this.locale, '1.1-1') + ' cm';
+                if(this.config.hourly.showPrecipitation){
+                  let precip = '';
+                  if(hour.rain){
+                    precip = formatNumber(hour.rain, this.locale, '1.1-1') + ' mm';
+                  }
+                  if(hour.snow){
+                    precip += hour.rain ? ' / ' : '';
+                    precip += formatNumber(hour.snow/10, this.locale, '1.1-1') + ' cm';
+                  }
+                  rtn.push(precip ? precip : '--');
                 }
-                if(!pop) {
-                  pop = '--';
+                if(this.config.hourly.showPop){
+                  rtn.push(formatNumber(hour.pop, this.locale, '1.0-0') + ' %');
                 }
-                return [
-                  formatNumber(hour.windSpeed*3.6, this.locale, '1.0-0')  + ' km/h (' + this.weatherService.getWindDirection(hour.windDirection) + ')',
-                  pop,
-                  formatNumber(hour.pop, this.locale, '1.0-0') + ' %'
-                ];
+                return rtn;
               }
             }
           },
@@ -121,7 +128,7 @@ export class HourlyComponent implements OnInit {
               enabled: false
             },
             datalabels: {
-              color: 'black',
+              color: this.config.darkMode ? '#dee2e6' : 'black',
               font: {
                 weight: 'bold',
                 size: 16

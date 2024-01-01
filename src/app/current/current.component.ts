@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DetailComponent } from './detail/detail.component';
 import { WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
+import { Config, ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-current',
@@ -16,8 +17,13 @@ import { WeatherData } from '../weatherdata';
   ] 
 })
 export class CurrentComponent implements OnInit {
+  config: Config;
   currentWeather: WeatherData | undefined;
   weatherService: WeatherService = inject(WeatherService);
+
+  constructor(configService: ConfigService){
+    configService.get().subscribe(config => this.config = config);
+  }
 
   ngOnInit(): void {
     this.weatherService.getCurrent().subscribe(currentWeather => {

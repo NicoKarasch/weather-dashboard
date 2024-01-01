@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     {
       provide: APP_INITIALIZER,
-      useFactory: (configService: ConfigService) => () => configService.get().toPromise(),
+      useFactory: (configService: ConfigService) => () => configService.get(),
       deps: [ConfigService],
       multi: true
     }

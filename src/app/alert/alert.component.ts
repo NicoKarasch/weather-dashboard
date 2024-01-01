@@ -4,6 +4,7 @@ import { WeatherService } from '../weather.service';
 import { Alert } from '../alert';
 import moment from 'moment';
 import 'moment/min/locales';
+import { Config, ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-alert',
@@ -17,15 +18,22 @@ export class AlertComponent implements OnInit {
   times: String[] = [];
   intervalId: any = -1;
   weatherService: WeatherService = inject(WeatherService);
+  config: Config;
+  
+  constructor(configService: ConfigService){
+    configService.get().subscribe(config => this.config = config);
+  }
 
   ngOnInit(): void {
-    moment.locale('de');
-    this.weatherService.getAlerts().subscribe(alerts => {
-      this.alerts = alerts;
-      clearInterval(this.intervalId);
-      this.updateTimes();
-      this.intervalId = setInterval(() => this.updateTimes(), 1000);
-    });
+    if(this.config.alerts.show){
+      moment.locale('de');
+      this.weatherService.getAlerts().subscribe(alerts => {
+          this.alerts = alerts;
+          clearInterval(this.intervalId);
+          this.updateTimes();
+          this.intervalId = setInterval(() => this.updateTimes(), 1000);
+        });
+    }
 
   }
 

@@ -9,7 +9,7 @@ import { ConfigService, Config } from './config.service';
 })
 export class WeatherService {
 
-  private url = 'https://api.openweathermap.org/data/3.0/onecall?lat=52.459246596015404&lon=13.314200259118788&units=metric&lang=de&exclude=minutely&appid=92bf13ee6f955aac34d8f9be4c88777a';
+  private url: string;
   private testdata = '/assets/testdata.json';
   private config: Config;
 
@@ -18,9 +18,10 @@ export class WeatherService {
   private daily: Subject<WeatherData[]> = new Subject;
   private alerts: Subject<Alert[]> = new Subject;
 
-  constructor(private configService: ConfigService){
-    this.fetchData();
+  constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);
+    this.url = `https://api.openweathermap.org/data/3.0/onecall?lat=${this.config.openweathermap.lat}&lon=${this.config.openweathermap.lon}&units=metric&lang=de&exclude=minutely&appid=${this.config.openweathermap.appid}`;
+    this.fetchData();
   }
 
   private async fetchData() {
@@ -112,7 +113,7 @@ export class WeatherService {
         });
         this.alerts.next(alerts);
     
-        setTimeout(() => this.fetchData(), 30*60*1000);
+        setTimeout(() => this.fetchData(), this.config.updateInterval*60*1000);
       });
   }
 

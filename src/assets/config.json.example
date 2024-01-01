@@ -1,13 +1,14 @@
 {
     "darkMode": false,
     "location": "New York City",
+    "updateInterval": 30, 
     "openweathermap": {
         "appid": "abc123",
         "lat": 40.712778,
-        "lng": -74.005833
+        "lon": -74.005833
     },
     "alerts": {
-        "show": "true"
+        "show": true
     },
     "current": {
         "showWind": true,
@@ -39,6 +40,7 @@
     },
     "daily": {
         "show": true,
+        "days": 8,
         "showLegendLeft": true,
         "showLegendRight": true,
         "showMoonPhase": true,

@@ -25,10 +25,10 @@ export class SunmoonComponent implements OnInit {
   moonPerc = 0;
 
   ngOnInit(): void {
-    this.weatherService.getCurrent().subscribe(currentWeather => {
-      this.currentWeather = currentWeather;
-    });
-    setInterval(() => this.updateLefts(), 1000);
+      this.weatherService.getCurrent().subscribe(currentWeather => {
+        this.currentWeather = currentWeather;
+      });
+      setInterval(() => this.updateLefts(), 1000);
   }
   
   getDateDiff(d1: Date, d2: Date): string {

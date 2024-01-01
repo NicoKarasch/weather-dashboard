@@ -2,6 +2,7 @@ import { Component, inject, LOCALE_ID, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
+import { Config, ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-daily',
@@ -17,6 +18,11 @@ import { WeatherData } from '../weatherdata';
 export class DailyComponent implements OnInit {
   weather: WeatherData[] = [];
   weatherService: WeatherService = inject(WeatherService);
+  config: Config;
+  
+  constructor(private configService: ConfigService){
+    configService.get().subscribe(config => this.config = config);
+  }
 
   ngOnInit(): void {
     this.weatherService.getDaily().subscribe(weather => {

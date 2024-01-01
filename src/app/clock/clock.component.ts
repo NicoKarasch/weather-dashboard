@@ -1,5 +1,6 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Config, ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-clock',
@@ -13,9 +14,16 @@ import { CommonModule } from '@angular/common';
   ] 
 })
 export class ClockComponent implements OnInit {
+  config: Config;
   date = new Date;
 
+  constructor(configService: ConfigService){
+    configService.get().subscribe(config => this.config = config);
+  }
+
   ngOnInit(): void {
-    setInterval(() => this.date = new Date, 1000);
+    if(this.config.clock.show){
+      setInterval(() => this.date = new Date, 1000);
+    }
   }
 }

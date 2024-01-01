@@ -1,13 +1,14 @@
 {
-    "darkMode": false,
-    "location": "New York City",
+    "darkMode": true,
+    "location": "Steglitz, Berlin",
+    "updateInterval": 30,
     "openweathermap": {
-        "appid": "abc123",
-        "lat": 40.712778,
-        "lng": -74.005833
+        "appid": "92bf13ee6f955aac34d8f9be4c88777a",
+        "lat": 52.459246596015404,
+        "lon": 13.314200259118788
     },
     "alerts": {
-        "show": "true"
+        "show": true
     },
     "current": {
         "showWind": true,
@@ -29,27 +30,28 @@
     },
     "hourly": {
         "show": true,
-        "hours": 24,
+        "hours": 25,
         "windSpeed": {
             "show": true,
-            "showWindDirection": true
+            "showWindDirection": false
         },
         "showPrecipitation": true,
         "showPop": true
     },
     "daily": {
         "show": true,
+        "days": 8,
         "showLegendLeft": true,
         "showLegendRight": true,
         "showMoonPhase": true,
         "showWind": true,
-        "showHumidity": true,
+        "showHumidity": false,
         "showPrecipitation": true,
         "showSun": true,
-        "showMoon": true,
-        "showPressure": true,
-        "showDewPoint": true,
+        "showMoon": false,
+        "showPressure": false,
+        "showDewPoint": false,
         "showClouds": true,
-        "showUVIndex": true
+        "showUVIndex": false
     }
 }
