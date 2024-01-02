@@ -45,13 +45,13 @@
         "showLegendRight": true,
         "showMoonPhase": true,
         "showWind": true,
-        "showHumidity": false,
+        "showHumidity": true,
         "showPrecipitation": true,
         "showSun": true,
-        "showMoon": false,
-        "showPressure": false,
-        "showDewPoint": false,
+        "showMoon": true,
+        "showPressure": true,
+        "showDewPoint": true,
         "showClouds": true,
-        "showUVIndex": false
+        "showUVIndex": true
     }
 }

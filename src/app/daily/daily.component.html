@@ -2,7 +2,7 @@
     <ng-template [ngTemplateOutlet]="legend" *ngIf="config.daily.showLegendLeft"></ng-template>
     <div class="card h-100" *ngFor="let day of weather.slice(0, config.daily.days); first as isFirst">
         <div class="card-header hstack pe-3">
-            <div class="me-auto">{{ isFirst ? 'Heute' : day.timeStamp | date:'EEEE' }} <small>{{ day.timeStamp | date:'d.M.' }}</small></div>
+            <div class="me-auto">{{ isFirst ? todayStr : weekdayFmt.format(day.timeStamp)}} <small>{{ dateFmt.format(day.timeStamp) }}</small></div>
             <div *ngIf="config.daily.showMoonPhase"><img src="assets/icons/moon-{{weatherService.getMoonIcon(day.moonPhase)}}.svg" class="moon" title="{{weatherService.getMoonPhase(day.moonPhase)}}"></div>
         </div>
         <div class="card-body text-center pt-1">
@@ -20,14 +20,14 @@
                 {{day.humidity}} %
             </li>
             <li class="list-group-item" *ngIf="config.daily.showPrecipitation">
-                {{day.pop|number:'1.0-0'}} %<span *ngIf="day.rain"><img src="assets/icons/raindrop.svg">{{day.rain | number:'1.1-1'}} mm</span><span *ngIf="day.snow"><img src="assets/icons/snowflake.svg">{{day.snow/10 | number:'1.1-1'}} cm</span>
+                {{day.pop|number:'1.0-0'}} %<span *ngIf="day.rain"><img src="assets/icons/raindrop.svg">{{precFmt.format(day.rain)}} mm</span><span *ngIf="day.snow"><img src="assets/icons/snowflake.svg">{{precFmt.format(day.snow/10)}} cm</span>
             </li>
             <li class="list-group-item" *ngIf="config.daily.showSun">
-                <img src="assets/icons/sunrise.svg"> {{day.sunrise | date:'shortTime'}} <img src="assets/icons/sunset.svg"> {{day.sunset | date:'shortTime'}}
+                <img src="assets/icons/sunrise.svg"> {{timeFmt.format(day.sunrise)}} <img src="assets/icons/sunset.svg"> {{timeFmt.format(day.sunset)}}
             </li>
             <li class="list-group-item" *ngIf="config.daily.showMoon">
-                <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/icons/moonrise.svg"> {{day.moonrise | date:'shortTime'}} <img src="assets/icons/moonset.svg"> {{day.moonset | date:'shortTime'}}</span>
-                <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/icons/moonset.svg"> {{day.moonset | date:'shortTime'}} <img src="assets/icons/moonrise.svg"> {{day.moonrise | date:'shortTime'}}</span>
+                <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/icons/moonrise.svg"> {{timeFmt.format(day.moonrise)}} <img src="assets/icons/moonset.svg"> {{timeFmt.format(day.moonset)}}</span>
+                <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/icons/moonset.svg"> {{timeFmt.format(day.moonset)}} <img src="assets/icons/moonrise.svg"> {{timeFmt.format(day.moonrise)}}</span>
             </li>
             <li class="list-group-item" *ngIf="config.daily.showPressure">
                 {{day.pressure}} hPa
@@ -39,7 +39,7 @@
                 {{day.clouds}} %
             </li>
             <li class="list-group-item" *ngIf="config.daily.showUVIndex">
-                {{day.uVIndex | number:'1.2-2'}}
+                {{nbrFmt.format(day.uVIndex)}}
             </li>
         </ul>
     </div>

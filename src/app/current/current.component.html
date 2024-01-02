@@ -6,7 +6,7 @@
                 <img src="{{ 'assets/icons/openweathermap/' + currentWeather.icon + '.svg' }}" height="140" style="margin: -20px"> {{currentWeather.temperature | number: '1.0-0'}} °C
             </h1>
             <p class="card-text"><strong>{{currentWeather.description}}</strong><br>Gefühlt: {{currentWeather.feelsLike | number: '1.0-0'}} °C</p>
-            <p class="card-text lead">{{currentWeather.summary }}</p>
+            <p class="card-text lead">{{currentWeather.summary}}</p>
         </div>
     </div>
     <div class="card-footer">

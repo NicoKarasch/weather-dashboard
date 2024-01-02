@@ -25,7 +25,7 @@ export class WeatherService {
   }
 
   private async fetchData() {
-    fetch(this.url)
+    fetch(this.testdata)
       .then(response => response.json())
       .then(json => {
         const daily: WeatherData[] = [];

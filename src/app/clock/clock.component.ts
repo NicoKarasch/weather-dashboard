@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Config, ConfigService } from '../config.service';
 
@@ -8,17 +8,20 @@ import { Config, ConfigService } from '../config.service';
   imports: [CommonModule],
   templateUrl: './clock.component.html',
   styleUrl: './clock.component.css',
-  host: { 'class': 'col-2' },
-  providers: [
-    { provide: LOCALE_ID, useValue: 'de-DE' }    
-  ] 
+  host: { 'class': 'col-2' }
 })
 export class ClockComponent implements OnInit {
   config: Config;
+  dateFmt: Intl.DateTimeFormat;
+  timeFmt: Intl.DateTimeFormat;
   date = new Date;
 
   constructor(configService: ConfigService){
-    configService.get().subscribe(config => this.config = config);
+    configService.get().subscribe(config => {
+      this.config = config;
+      this.dateFmt = new Intl.DateTimeFormat(undefined, {dateStyle: 'full'});
+      this.timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle: config.clock.showSeconds ? 'medium' : 'short'});
+    });
   }
 
   ngOnInit(): void {

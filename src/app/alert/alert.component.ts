@@ -2,8 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherService } from '../weather.service';
 import { Alert } from '../alert';
-import moment from 'moment';
-import 'moment/min/locales';
 import { Config, ConfigService } from '../config.service';
 
 @Component({
@@ -19,6 +17,8 @@ export class AlertComponent implements OnInit {
   intervalId: any = -1;
   weatherService: WeatherService = inject(WeatherService);
   config: Config;
+  dateFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'medium'});
+  relTimeFmt = new Intl.RelativeTimeFormat(undefined, { numeric: 'auto' });
   
   constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);
@@ -26,7 +26,6 @@ export class AlertComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.config.alerts.show){
-      moment.locale('de');
       this.weatherService.getAlerts().subscribe(alerts => {
           this.alerts = alerts;
           clearInterval(this.intervalId);
@@ -55,15 +54,21 @@ export class AlertComponent implements OnInit {
   updateTimes(): void {
     this.times = [];
     this.alerts.forEach(alert => {
-      const start = moment(alert.start);
-      const end = moment(alert.end);
+      // const start = moment(alert.start);
+      // const end = moment(alert.end);
       let span: string;
-      if(end.isBefore()){
+      const now = Date.now();
+      if(alert.end.getTime() < now){
         span = 'abgelaufen';
       }else{
-        span = start.isAfter() ? start.fromNow() + ', für ' + start.to(end, true) : 'noch ' + end.toNow(true);
+        span = alert.start.getTime() > now ? 'in ' + this.getSpan(new Date, alert.start) + ', für ' + this.getSpan(alert.start, alert.end) : 'noch ' + this.getSpan(alert.end);
       }
-      this.times.push(start.calendar() + ' bis ' + end.calendar() + ' (' + span + ')');
+      this.times.push(this.dateFmt.format(alert.start) + ' bis ' + this.dateFmt.format(alert.end) + ' (' + span + ')');
     });
+  }
+  private getSpan(from: Date, to = new Date): string {
+    const span = from.getTime() - to.getTime();
+    const parts = Math.abs(span) < 1000*60*60 ? this.relTimeFmt.formatToParts(Math.round(span/1000/60), 'minute') : this.relTimeFmt.formatToParts(Math.round(span/1000/60/60), 'hour');
+    return parts[1].value + parts[2].value;
   }
 }
