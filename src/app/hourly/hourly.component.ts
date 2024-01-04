@@ -18,14 +18,18 @@ export class HourlyComponent implements OnInit {
   weatherService: WeatherService = inject(WeatherService);
   public chart: any;
   config: Config;
-  timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'short'});
-  precFmt = new Intl.NumberFormat(undefined, {maximumFractionDigits: 1});
+  timeFmt: Intl.DateTimeFormat;
+  precFmt: Intl.NumberFormat;
 
   constructor(configService: ConfigService) {
     Chart.register(annotationPlugin);
     Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
     Chart.defaults.font.size = 14;
-    configService.get().subscribe(config => this.config = config);
+    configService.get().subscribe(config => {
+      this.config = config
+      this.timeFmt = new Intl.DateTimeFormat(config.language, {timeStyle:'short'});
+      this.precFmt = new Intl.NumberFormat(config.language, {maximumFractionDigits: 1});
+    });
   }
   
   ngOnInit(): void {

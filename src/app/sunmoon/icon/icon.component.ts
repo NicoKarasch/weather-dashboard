@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ConfigService } from '../../config.service';
 
 @Component({
   selector: 'app-icon',
@@ -12,5 +13,11 @@ export class IconComponent {
   @Input({ required: true }) icon: string;
   @Input({ required: true }) date: Date;
 
-  timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'short'});
+  timeFmt: Intl.DateTimeFormat;
+
+  constructor(configService: ConfigService){
+    configService.get().subscribe(config => {
+      this.timeFmt = new Intl.DateTimeFormat(config.language, {timeStyle:'short'});
+    });
+  }
 }

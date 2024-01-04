@@ -1,5 +1,6 @@
 {
     "darkMode": false,
+    "language": "en",
     "location": "New York City",
     "updateInterval": 30, 
     "openweathermap": {

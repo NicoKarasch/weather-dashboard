@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
 import { IconComponent } from './icon/icon.component';
+import { Config, ConfigService, Locale } from '../config.service';
 
 @Component({
   selector: 'app-sunmoon',
@@ -19,8 +20,24 @@ export class SunmoonComponent implements OnInit {
   sunPerc = 0;
   moonLeft = '';
   moonPerc = 0;
-  dateFmt = new Intl.DateTimeFormat(undefined, {month:'short',day:'numeric'});
-  private static timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'medium'});
+  dateFmt: Intl.DateTimeFormat;
+  config: Config;
+  locale: Locale;
+  private static timeFmt: Intl.DateTimeFormat
+  private minStr: string;
+  private hrStr: string;
+
+  constructor(configService: ConfigService){
+    configService.get().subscribe(config => {
+      this.config = config;
+      this.dateFmt = new Intl.DateTimeFormat(config.language, {month:'short',day:'numeric'});
+      SunmoonComponent.timeFmt =  new Intl.DateTimeFormat(config.language, {timeStyle:'medium'});
+      const rel = new Intl.RelativeTimeFormat(config.language, { style: 'short' });
+      this.minStr = rel.formatToParts(0, 'minute')[2].value;
+      this.hrStr = rel.formatToParts(0, 'hour')[2].value;
+    });
+    configService.getLocale().subscribe(locale => this.locale = locale);
+  }
 
   ngOnInit(): void {
       this.weatherService.getCurrent().subscribe(currentWeather => {
@@ -34,7 +51,7 @@ export class SunmoonComponent implements OnInit {
     const d2t = d2.getTime();
     if(d1t === 0 || d2t === 0) return '?'; //Sometimes moonset is unknown?
     const diff = new Date(d1t < d2t ? d2t - d1t : d1t - d2t);
-    return diff.getHours()+diff.getTimezoneOffset()/60 + ' Std. ' + diff.getMinutes() + ' Min.';
+    return diff.getHours()+diff.getTimezoneOffset()/60 + this.hrStr +' ' + diff.getMinutes() + this.minStr;
   }
 
   private updateLefts(){

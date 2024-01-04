@@ -16,15 +16,23 @@ export class DailyComponent implements OnInit {
   weather: WeatherData[] = [];
   weatherService: WeatherService = inject(WeatherService);
   config: Config;
-  weekdayFmt = new Intl.DateTimeFormat(undefined, {weekday:'long'});
-  todayStr = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'}).format(0, 'day');
-  dateFmt = new Intl.DateTimeFormat(undefined, {day:'numeric', month:'numeric'});
-  timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'short'});
-  nbrFmt = new Intl.NumberFormat();
-  precFmt = new Intl.NumberFormat(undefined, {maximumFractionDigits: 1});
+  weekdayFmt: Intl.DateTimeFormat;
+  todayStr: string;
+  dateFmt: Intl.DateTimeFormat;
+  timeFmt: Intl.DateTimeFormat;
+  nbrFmt: Intl.NumberFormat;
+  precFmt: Intl.NumberFormat;
   
   constructor(private configService: ConfigService){
-    configService.get().subscribe(config => this.config = config);
+    configService.get().subscribe(config => {
+      this.config = config;
+      this.weekdayFmt = new Intl.DateTimeFormat(config.language, {weekday:'long'});
+      this.todayStr = new Intl.RelativeTimeFormat(config.language, {numeric: 'auto'}).format(0, 'day');
+      this.dateFmt = new Intl.DateTimeFormat(config.language, {day:'numeric', month:'numeric'});
+      this.timeFmt = new Intl.DateTimeFormat(config.language, {timeStyle:'short'});
+      this.nbrFmt = new Intl.NumberFormat(config.language);
+      this.precFmt = new Intl.NumberFormat(config.language, {maximumFractionDigits: 1});
+    });
   }
 
   ngOnInit(): void {

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DetailComponent } from './detail/detail.component';
 import { WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
-import { Config, ConfigService } from '../config.service';
+import { Config, ConfigService, Locale } from '../config.service';
 
 @Component({
   selector: 'app-current',
@@ -15,6 +15,7 @@ import { Config, ConfigService } from '../config.service';
 })
 export class CurrentComponent implements OnInit {
   config: Config;
+  locale: Locale;
   currentWeather: WeatherData;
   weatherService: WeatherService = inject(WeatherService);
   timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'short'});
@@ -22,6 +23,7 @@ export class CurrentComponent implements OnInit {
 
   constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);
+    configService.getLocale().subscribe(locale => this.locale = locale);
   }
 
   ngOnInit(): void {

@@ -19,8 +19,8 @@ export class ClockComponent implements OnInit {
   constructor(configService: ConfigService){
     configService.get().subscribe(config => {
       this.config = config;
-      this.dateFmt = new Intl.DateTimeFormat(undefined, {dateStyle: 'full'});
-      this.timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle: config.clock.showSeconds ? 'medium' : 'short'});
+      this.dateFmt = new Intl.DateTimeFormat(config.language, {dateStyle: 'full'});
+      this.timeFmt = new Intl.DateTimeFormat(config.language, {timeStyle: config.clock.showSeconds ? 'medium' : 'short'});
     });
   }
 

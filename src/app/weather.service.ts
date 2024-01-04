@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { WeatherData } from './weatherdata';
 import { Alert } from './alert';
 import { Subject, Observable, of } from 'rxjs';
-import { ConfigService, Config } from './config.service';
+import { ConfigService, Config, Locale } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,7 @@ export class WeatherService {
   private url: string;
   private testdata = '/assets/testdata.json';
   private config: Config;
+  private locale: Locale;
 
   private current: Subject<WeatherData> = new Subject;
   private hourly: Subject<WeatherData[]> = new Subject;
@@ -20,7 +21,8 @@ export class WeatherService {
 
   constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);
-    this.url = `https://api.openweathermap.org/data/3.0/onecall?lat=${this.config.openweathermap.lat}&lon=${this.config.openweathermap.lon}&units=metric&lang=de&exclude=minutely&appid=${this.config.openweathermap.appid}`;
+    configService.getLocale().subscribe(locale => this.locale = locale);
+    this.url = `https://api.openweathermap.org/data/3.0/onecall?lat=${this.config.openweathermap.lat}&lon=${this.config.openweathermap.lon}&units=metric&lang=${this.config.language}&exclude=minutely&appid=${this.config.openweathermap.appid}`;
     this.fetchData();
   }
 
@@ -76,8 +78,8 @@ export class WeatherService {
             visibility: hour.visibility,
             windDirection: hour.wind_deg,
             windSpeed: hour.wind_speed,
-            rain: hour.rain ? hour.rain["1h"] : undefined,
-            snow: hour.snow ? hour.snow["1h"] : undefined
+            rain: hour.rain ? hour.rain['1h'] : undefined,
+            snow: hour.snow ? hour.snow['1h'] : undefined
           });
         });
         this.hourly.next(hourly);
@@ -152,39 +154,39 @@ export class WeatherService {
   }
 
   getWindDirection(deg: number): string {
-    if(deg <= 22.5)       return 'N';
-    if(deg <= 45 + 22.5)  return 'NO';
-    if(deg <= 90 + 22.5)  return 'O';
-    if(deg <= 135 + 22.5) return 'SO';
-    if(deg <= 180 + 22.5) return 'S';
-    if(deg <= 225 + 22.5) return 'SW';
-    if(deg <= 270 + 22.5) return 'W';
-    if(deg <= 315 + 22.5) return 'NW';
-    return 'N';
+    if(deg <= 22.5)       return this.locale.wind_n;
+    if(deg <= 45 + 22.5)  return this.locale.wind_n + this.locale.wind_e;
+    if(deg <= 90 + 22.5)  return this.locale.wind_e;
+    if(deg <= 135 + 22.5) return this.locale.wind_s + this.locale.wind_e;
+    if(deg <= 180 + 22.5) return this.locale.wind_s;
+    if(deg <= 225 + 22.5) return this.locale.wind_s + this.locale.wind_w;
+    if(deg <= 270 + 22.5) return this.locale.wind_w;
+    if(deg <= 315 + 22.5) return this.locale.wind_n + this.locale.wind_w;
+    return this.locale.wind_n;
   }
 
   
-  getMoonIcon(phase: number): string {
-    if(phase == 0)   return "new";
-    if(phase < .25)  return "waxing-crescent";
-    if(phase == .25) return "first-quarter";
-    if(phase < .5)   return "waxing-gibbous";
-    if(phase == .5)  return "full";
-    if(phase < .75)  return "waning-gibbous";
-    if(phase == .75) return "last-quarter";
-    if(phase < 1)    return "waning-crescent";
-    return "new";
+  /*static*/ getMoonIcon(phase: number): string {
+    if(phase == 0)   return 'new';
+    if(phase < .25)  return 'waxing-crescent';
+    if(phase == .25) return 'first-quarter';
+    if(phase < .5)   return 'waxing-gibbous';
+    if(phase == .5)  return 'full';
+    if(phase < .75)  return 'waning-gibbous';
+    if(phase == .75) return 'last-quarter';
+    if(phase < 1)    return 'waning-crescent';
+    return 'new';
   }
 
   getMoonPhase(phase: number): string {
-    if(phase == 0)   return "Neumond";
-    if(phase < .25)  return "zunehmende Sichel";
-    if(phase == .25) return "zunehmender Halbmond";
-    if(phase < .5)   return "zweites Viertel";
-    if(phase == .5)  return "Vollmond";
-    if(phase < .75)  return "drittes Viertel";
-    if(phase == .75) return "abnehmender Halbmond";
-    if(phase < 1)    return "abnehmende Sichel";
-    return "Neumond";
+    if(phase == 0)   return this.locale.moon_new;
+    if(phase < .25)  return this.locale.moon_waxingCrescent;
+    if(phase == .25) return this.locale.moon_firstQuarter;
+    if(phase < .5)   return this.locale.moon_waxingGibbous;
+    if(phase == .5)  return this.locale.moon_full;
+    if(phase < .75)  return this.locale.moon_waningGibbous;
+    if(phase == .75) return this.locale.moon_lastQuarter;
+    if(phase < 1)    return this.locale.moon_waningCrescent;
+    return this.locale.moon_new;
   }
 }
