@@ -1,4 +1,4 @@
-import { Component, inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailComponent } from './detail/detail.component';
 import { WeatherService } from '../weather.service';
@@ -11,15 +11,14 @@ import { Config, ConfigService } from '../config.service';
   imports: [CommonModule, DetailComponent],
   host: {'class': 'col-5'},
   templateUrl: './current.component.html',
-  styleUrl: './current.component.css',
-  providers: [
-    { provide: LOCALE_ID, useValue: 'de-DE' }    
-  ] 
+  styleUrl: './current.component.css'
 })
 export class CurrentComponent implements OnInit {
   config: Config;
-  currentWeather: WeatherData | undefined;
+  currentWeather: WeatherData;
   weatherService: WeatherService = inject(WeatherService);
+  timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'short'});
+  nbrFmt = new Intl.NumberFormat();
 
   constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);

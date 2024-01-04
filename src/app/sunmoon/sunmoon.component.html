@@ -1,5 +1,5 @@
 <div class="card h-100" *ngIf="currentWeather">
-    <div class="card-header">Sonne & Mond <small>{{currentWeather.timeStamp | date:'d. MMM'}}</small></div>
+    <div class="card-header">Sonne & Mond <small>{{dateFmt.format(currentWeather.timeStamp)}}</small></div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex align-items-end">
             <app-icon icon="sunrise" [date]="currentWeather.sunrise"/>

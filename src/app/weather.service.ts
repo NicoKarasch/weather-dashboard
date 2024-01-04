@@ -25,7 +25,7 @@ export class WeatherService {
   }
 
   private async fetchData() {
-    fetch(this.testdata)
+    fetch(this.url)
       .then(response => response.json())
       .then(json => {
         const daily: WeatherData[] = [];
@@ -103,6 +103,7 @@ export class WeatherService {
 
         const alerts: Alert[] = [];
         json.alerts?.forEach((alert: any) => {
+          alert.tags.push(alert.event); //Treat event name as tag too
           alerts.push({
             from: alert.sender_name,
             message: alert.description,

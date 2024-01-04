@@ -1,5 +1,5 @@
 <div class="card h-100" *ngIf="currentWeather">
-    <div class="card-header">{{config.location ? config.location : 'Aktuelle Werte'}} <small>{{currentWeather.timeStamp | date:'shortTime'}}</small></div>
+    <div class="card-header">{{config.location}} <small>{{timeFmt.format(currentWeather.timeStamp)}}</small></div>
     <div class="card-body">
         <div class="clearfix">
             <h1 class="float-start me-5 mb-0">
@@ -14,11 +14,11 @@
             <current-detail icon="wind-beaufort-{{weatherService.getBeaufort(currentWeather.windSpeed)}}" name="Wind ({{weatherService.getWindDirection(currentWeather.windDirection)}})" value="{{currentWeather.windSpeed*3.6 | number: '1.0-0'}} km/h" *ngIf="config.current.showWind">
                 <img src="assets/icons/compass.svg" style="transform: rotate({{currentWeather.windDirection+180}}deg)" height="40" style="margin: -5px">
             </current-detail>
-            <current-detail icon="humidity" name="Luftfeuchte" value="{{currentWeather.humidity}} %" *ngIf="config.current.showHumidity"/>
             <current-detail icon="barometer" name="Luftdruck" value="{{currentWeather.pressure}} hPa" *ngIf="config.current.showPressure"/>
+            <current-detail icon="humidity" name="Luftfeuchte" value="{{currentWeather.humidity}} %" *ngIf="config.current.showHumidity"/>
             <current-detail icon="thermometer" name="Taupunkt" value="{{currentWeather.dewPoint | number: '1.0-0'}} °C" *ngIf="config.current.showDewPoint"/>
             <current-detail icon="cloudy" name="Bewölkung" value="{{currentWeather.clouds}} %" *ngIf="config.current.showClouds"/>
-            <current-detail icon="uv-index-{{currentWeather.uVIndex | number: '1.0-0' }}" name="UV-Index" value="{{currentWeather.uVIndex | number }}" *ngIf="config.current.showUVIndex"/>
+            <current-detail icon="uv-index-{{currentWeather.uVIndex | number: '1.0-0' }}" name="UV-Index" value="{{nbrFmt.format(currentWeather.uVIndex)}}" *ngIf="config.current.showUVIndex"/>
             <current-detail icon="mist" name="Sicht" value="{{currentWeather.visibility | number: '1.0-0'}} km" *ngIf="config.current.showVisibility"/>
         </div>
     </div>

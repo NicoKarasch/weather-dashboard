@@ -1,8 +1,7 @@
-import { Component, inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
-import moment from 'moment';
 import { IconComponent } from './icon/icon.component';
 
 @Component({
@@ -11,18 +10,17 @@ import { IconComponent } from './icon/icon.component';
   imports: [CommonModule, IconComponent],
   host: {'class': 'col'},
   templateUrl: './sunmoon.component.html',
-  styleUrl: './sunmoon.component.css',
-  providers: [
-    { provide: LOCALE_ID, useValue: 'de-DE' }    
-  ] 
+  styleUrl: './sunmoon.component.css'
 })
 export class SunmoonComponent implements OnInit {
-  currentWeather: WeatherData | undefined;
+  currentWeather: WeatherData;
   weatherService: WeatherService = inject(WeatherService);
-  sunLeft = "";
+  sunLeft = '';
   sunPerc = 0;
-  moonLeft = "";
+  moonLeft = '';
   moonPerc = 0;
+  dateFmt = new Intl.DateTimeFormat(undefined, {month:'short',day:'numeric'});
+  private static timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'medium'});
 
   ngOnInit(): void {
       this.weatherService.getCurrent().subscribe(currentWeather => {
@@ -31,15 +29,18 @@ export class SunmoonComponent implements OnInit {
       setInterval(() => this.updateLefts(), 1000);
   }
   
-  getDateDiff(d1: Date, d2: Date): string {
-    const dur = d1.getTime() < d2.getTime() ? moment.duration(moment(d2).diff(d1)) : moment.duration(moment(d1).diff(d2));
-    return moment.utc(dur.asMilliseconds()).format('H [Std.] m [Min.]');
+  /*static*/ getDateDiff(d1: Date, d2: Date): string {
+    const d1t = d1.getTime();
+    const d2t = d2.getTime();
+    if(d1t === 0 || d2t === 0) return '?'; //Sometimes moonset is unknown?
+    const diff = new Date(d1t < d2t ? d2t - d1t : d1t - d2t);
+    return diff.getHours()+diff.getTimezoneOffset()/60 + ' Std. ' + diff.getMinutes() + ' Min.';
   }
 
   private updateLefts(){
     if(!this.currentWeather) return;
 
-    const cur = moment();
+    const cur = Date.now();
 
     this.sunPerc = calcPerc(this.currentWeather.sunrise, this.currentWeather.sunset);
     this.sunLeft = calcLeft(this.currentWeather.sunset);
@@ -52,13 +53,13 @@ export class SunmoonComponent implements OnInit {
     }
 
     function calcPerc(rise: Date, set: Date): number {
-      return Math.min((cur.valueOf() - rise.getTime()) / (set.getTime() - rise.getTime()) * 100, 100);
+      return Math.min((cur - rise.getTime()) / (set.getTime() - rise.getTime()) * 100, 100);
     }
     function calcLeft(set: Date): string {
       if(set.getTime() == 0) return ""; //Sometimes moonset is unknown
 
-      const diff = moment(set).diff(cur);
-      return diff > 0 ? moment.utc(diff).format('HH:mm:ss') : "";
+      const diff = new Date(set.getTime() - cur + set.getTimezoneOffset()*60*1000);
+      return diff.getTime() > 0 ? SunmoonComponent.timeFmt.format(diff) : "";
     }
   }
 }

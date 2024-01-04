@@ -17,8 +17,8 @@ export class AlertComponent implements OnInit {
   intervalId: any = -1;
   weatherService: WeatherService = inject(WeatherService);
   config: Config;
-  dateFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'medium'});
-  relTimeFmt = new Intl.RelativeTimeFormat(undefined, { numeric: 'auto' });
+  dateFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'short'});
+  relTimeFmt = new Intl.RelativeTimeFormat();
   
   constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);
@@ -46,6 +46,7 @@ export class AlertComponent implements OnInit {
           break;
         case "rain": icon = "raindrops"; break;
         case "thunder": icon = "lightning-bolt"; break;
+        case "frost": icon = "snowflake"; break;
       }
     });
     return icon;
@@ -54,8 +55,6 @@ export class AlertComponent implements OnInit {
   updateTimes(): void {
     this.times = [];
     this.alerts.forEach(alert => {
-      // const start = moment(alert.start);
-      // const end = moment(alert.end);
       let span: string;
       const now = Date.now();
       if(alert.end.getTime() < now){
@@ -68,7 +67,7 @@ export class AlertComponent implements OnInit {
   }
   private getSpan(from: Date, to = new Date): string {
     const span = from.getTime() - to.getTime();
-    const parts = Math.abs(span) < 1000*60*60 ? this.relTimeFmt.formatToParts(Math.round(span/1000/60), 'minute') : this.relTimeFmt.formatToParts(Math.round(span/1000/60/60), 'hour');
+    const parts = Math.abs(span) < 1000*60*60 ? this.relTimeFmt.formatToParts(Math.ceil(span/1000/60), 'minute') : this.relTimeFmt.formatToParts(Math.round(span/1000/60/60), 'hour');
     return parts[1].value + parts[2].value;
   }
 }

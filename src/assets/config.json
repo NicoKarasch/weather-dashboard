@@ -48,10 +48,10 @@
         "showHumidity": true,
         "showPrecipitation": true,
         "showSun": true,
-        "showMoon": true,
+        "showMoon": false,
         "showPressure": true,
-        "showDewPoint": true,
+        "showDewPoint": false,
         "showClouds": true,
-        "showUVIndex": true
+        "showUVIndex": false
     }
 }
