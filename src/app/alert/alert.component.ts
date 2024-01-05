@@ -2,7 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherService } from '../weather.service';
 import { Alert } from '../alert';
-import { Config, ConfigService, Locale } from '../config.service';
+import { Config, ConfigService } from '../config.service';
+import { DurationType, FormatService } from '../format.service';
 
 @Component({
   selector: 'app-alert',
@@ -16,18 +17,11 @@ export class AlertComponent implements OnInit {
   times: String[] = [];
   intervalId: any = -1;
   weatherService: WeatherService = inject(WeatherService);
+  fmt: FormatService = inject(FormatService);
   config: Config;
-  private locale: Locale;
-  rangeFmt: Intl.DateTimeFormat;
-  relTimeFmt: Intl.RelativeTimeFormat;
   
   constructor(configService: ConfigService){
-    configService.get().subscribe(config => {
-      this.config = config;
-      this.rangeFmt = new Intl.DateTimeFormat(config.language, {timeStyle:'short'});
-      this.relTimeFmt = new Intl.RelativeTimeFormat(config.language);
-    });
-    configService.getLocale().subscribe(locale => this.locale = locale);
+    configService.get().subscribe(config => this.config = config);
   }
 
   ngOnInit(): void {
@@ -65,21 +59,6 @@ export class AlertComponent implements OnInit {
 
   updateTimes(): void {
     this.times = [];
-    this.alerts.forEach(alert => {
-      let span: string;
-      const now = Date.now();
-      if(alert.end.getTime() < now){
-        span = this.locale.expired;
-      }else{
-        span = alert.start.getTime() > now ? this.locale.in + ' ' + this.getSpan(alert.start, new Date) + ', ' + this.locale.for + ' ' + this.getSpan(alert.end, alert.start) : this.locale.left + ' ' + this.getSpan(alert.end);
-      }
-      this.times.push(this.rangeFmt.formatRange(alert.start, alert.end) + ' (' + span + ')');
-    });
-  }
-  private getSpan(from: Date, to = new Date): string {
-    const span = from.getTime() - to.getTime();
-    const parts = Math.abs(span) < 1000*60*60 ? this.relTimeFmt.formatToParts(Math.round(span/1000/60), 'minute') : this.relTimeFmt.formatToParts(Math.round(span/1000/60/60), 'hour');
-    console.log(parts);
-    return parts[1].value + parts[2].value;
+    this.alerts.forEach(alert => this.times.push(this.fmt.duration(alert.start, alert.end, DurationType.Full)));
   }
 }

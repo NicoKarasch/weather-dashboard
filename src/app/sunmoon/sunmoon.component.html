@@ -1,5 +1,5 @@
 <div class="card h-100" *ngIf="currentWeather">
-    <div class="card-header">{{locale.sunMoon}} <small>{{dateFmt.format(currentWeather.timeStamp)}}</small></div>
+    <div class="card-header">{{locale.sunMoon}} <small>{{fmt.date(currentWeather.timeStamp)}}</small></div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex align-items-end">
             <app-icon icon="sunrise" [date]="currentWeather.sunrise"/>
@@ -7,7 +7,7 @@
                 <div class="progress" role="progressbar">
                     <div class="progress-bar bg-warning" style="width: {{sunPerc}}%">{{sunLeft}}</div>
                 </div>
-                <small>{{getDateDiff(currentWeather.sunrise, currentWeather.sunset)}}</small>
+                <small>{{getDuration(currentWeather.sunrise, currentWeather.sunset)}}</small>
             </div>
             <app-icon icon="sunset" [date]="currentWeather.sunset"/>
         </li>
@@ -17,7 +17,7 @@
                 <div class="progress" role="progressbar">
                     <div class="progress-bar bg-secondary" style="width: {{moonPerc}}%">{{moonLeft}}</div>
                 </div>
-                <small>{{currentWeather.moonset.getTime() > 0 ? getDateDiff(currentWeather.moonrise, currentWeather.moonset) : '&nbsp;'}}</small>
+                <small>{{currentWeather.moonset.getTime() > 0 ? getDuration(currentWeather.moonrise, currentWeather.moonset) : '&nbsp;'}}</small>
             </div>
             <div *ngIf="currentWeather.moonrise.getTime() > currentWeather.moonset.getTime(); then moonriseIcon else moonsetIcon"></div>
         </li>

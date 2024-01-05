@@ -5,6 +5,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import { WeatherData } from '../weatherdata';
 import { WeatherService } from '../weather.service';
 import { Config, ConfigService } from '../config.service';
+import { FormatService } from '../format.service';
 
 @Component({
   selector: 'app-hourly',
@@ -16,20 +17,15 @@ import { Config, ConfigService } from '../config.service';
 export class HourlyComponent implements OnInit {
   weather: WeatherData[] = [];
   weatherService: WeatherService = inject(WeatherService);
+  fmt: FormatService = inject(FormatService);
   public chart: any;
   config: Config;
-  timeFmt: Intl.DateTimeFormat;
-  precFmt: Intl.NumberFormat;
 
   constructor(configService: ConfigService) {
     Chart.register(annotationPlugin);
     Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
     Chart.defaults.font.size = 14;
-    configService.get().subscribe(config => {
-      this.config = config
-      this.timeFmt = new Intl.DateTimeFormat(config.language, {timeStyle:'short'});
-      this.precFmt = new Intl.NumberFormat(config.language, {maximumFractionDigits: 1});
-    });
+    configService.get().subscribe(config => this.config = config);
   }
   
   ngOnInit(): void {
@@ -84,7 +80,7 @@ export class HourlyComponent implements OnInit {
             position: 'top',
             ticks: {
               callback: (val, index) => {
-                return this.timeFmt.format(this.weather[index].timeStamp);
+                return this.fmt.time(this.weather[index].timeStamp);
               }
             }
           },
@@ -96,21 +92,21 @@ export class HourlyComponent implements OnInit {
                 
                 const rtn: string[] = [];
                 if(this.config.hourly.windSpeed.show){
-                  rtn.push(Math.round(hour.windSpeed*3.6)  + ' km/h' + (this.config.hourly.windSpeed.showWindDirection ? ' (' + this.weatherService.getWindDirection(hour.windDirection) + ')' : ''));
+                  rtn.push(this.fmt.wind(hour.windSpeed) + (this.config.hourly.windSpeed.showWindDirection ? ' (' + this.weatherService.getWindDirection(hour.windDirection) + ')' : ''));
                 }
                 if(this.config.hourly.showPrecipitation){
                   let precip = '';
                   if(hour.rain){
-                    precip = this.precFmt.format(hour.rain) + ' mm';
+                    precip = this.fmt.rain(hour.rain);
                   }
                   if(hour.snow){
                     precip += hour.rain ? ' / ' : '';
-                    precip += this.precFmt.format(hour.snow/10) + ' cm';
+                    precip += this.fmt.snow(hour.snow);
                   }
                   rtn.push(precip ? precip : '--');
                 }
                 if(this.config.hourly.showPop){
-                  rtn.push(Math.round(hour.pop) + ' %');
+                  rtn.push(this.fmt.round(hour.pop) + ' %');
                 }
                 return rtn;
               }
@@ -135,7 +131,7 @@ export class HourlyComponent implements OnInit {
                 weight: 'bold',
                 size: 16
               },
-              formatter: (val) => { return Math.round(val) + ' °C' }
+              formatter: (val) => { return this.fmt.temp(val) }
             },
             annotation: {
               annotations: annots,

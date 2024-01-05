@@ -4,6 +4,7 @@ import { DetailComponent } from './detail/detail.component';
 import { WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
 import { Config, ConfigService, Locale } from '../config.service';
+import { FormatService } from '../format.service';
 
 @Component({
   selector: 'app-current',
@@ -18,8 +19,7 @@ export class CurrentComponent implements OnInit {
   locale: Locale;
   currentWeather: WeatherData;
   weatherService: WeatherService = inject(WeatherService);
-  timeFmt = new Intl.DateTimeFormat(undefined, {timeStyle:'short'});
-  nbrFmt = new Intl.NumberFormat();
+  fmt: FormatService = inject(FormatService);
 
   constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);

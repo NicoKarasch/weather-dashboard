@@ -2,44 +2,44 @@
     <ng-template [ngTemplateOutlet]="legend" *ngIf="config.daily.showLegendLeft"></ng-template>
     <div class="card h-100" *ngFor="let day of weather.slice(0, config.daily.days); first as isFirst">
         <div class="card-header hstack pe-3">
-            <div class="me-auto">{{ isFirst ? todayStr : weekdayFmt.format(day.timeStamp)}} <small>{{ dateFmt.format(day.timeStamp) }}</small></div>
+            <div class="me-auto">{{ isFirst ? fmt.today() : fmt.weekday(day.timeStamp)}} <small>{{ fmt.date(day.timeStamp) }}</small></div>
             <div *ngIf="config.daily.showMoonPhase"><img src="assets/icons/moon-{{weatherService.getMoonIcon(day.moonPhase)}}.svg" class="moon" title="{{weatherService.getMoonPhase(day.moonPhase)}}"></div>
         </div>
         <div class="card-body text-center pt-1">
             <img src="assets/icons/openweathermap/{{day.icon}}.svg" class="icon"><br>
             {{day.description}}
-            <h4 class="mb-0">{{day.temperature | number:'1.0-0'}} °C</h4>
-            <small>{{day.minTemperature | number:'1.0-0'}} °C</small>
+            <h4 class="mb-0">{{fmt.temp(day.temperature)}}</h4>
+            <small>{{fmt.temp(day.minTemperature)}}</small>
         </div>
         <ul class="list-group list-group-flush text-center">
             <li class="list-group-item" *ngIf="config.daily.showWind">
                 <img src="assets/icons/wind-beaufort-{{weatherService.getBeaufort(day.windSpeed)}}.svg" class="beaufort">
-                {{day.windSpeed*3.6 | number: '1.0-0'}} km/h<img src="assets/icons/compass.svg" style="transform: rotate({{day.windDirection+180}}deg)" class="direction">({{weatherService.getWindDirection(day.windDirection)}})
+                {{fmt.wind(day.windSpeed)}}<img src="assets/icons/compass.svg" style="transform: rotate({{day.windDirection+180}}deg)" class="direction">({{weatherService.getWindDirection(day.windDirection)}})
             </li>
             <li class="list-group-item" *ngIf="config.daily.showHumidity">
                 {{day.humidity}} %
             </li>
             <li class="list-group-item" *ngIf="config.daily.showPrecipitation">
-                {{day.pop|number:'1.0-0'}} %<span *ngIf="day.rain"><img src="assets/icons/raindrop.svg">{{precFmt.format(day.rain)}} mm</span><span *ngIf="day.snow"><img src="assets/icons/snowflake.svg">{{precFmt.format(day.snow/10)}} cm</span>
+                {{fmt.round(day.pop)}} %<span *ngIf="day.rain"><img src="assets/icons/raindrop.svg">{{fmt.rain(day.rain)}}</span><span *ngIf="day.snow"><img src="assets/icons/snowflake.svg">{{fmt.snow(day.snow)}}</span>
             </li>
             <li class="list-group-item" *ngIf="config.daily.showSun">
-                <img src="assets/icons/sunrise.svg"> {{timeFmt.format(day.sunrise)}} <img src="assets/icons/sunset.svg"> {{timeFmt.format(day.sunset)}}
+                <img src="assets/icons/sunrise.svg"> {{fmt.time(day.sunrise)}} <img src="assets/icons/sunset.svg"> {{fmt.time(day.sunset)}}
             </li>
             <li class="list-group-item" *ngIf="config.daily.showMoon">
-                <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/icons/moonrise.svg"> {{timeFmt.format(day.moonrise)}} <img src="assets/icons/moonset.svg"> {{timeFmt.format(day.moonset)}}</span>
-                <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/icons/moonset.svg"> {{timeFmt.format(day.moonset)}} <img src="assets/icons/moonrise.svg"> {{timeFmt.format(day.moonrise)}}</span>
+                <span *ngIf="day.moonrise.getTime() < day.moonset.getTime()"><img src="assets/icons/moonrise.svg"> {{fmt.time(day.moonrise)}} <img src="assets/icons/moonset.svg"> {{fmt.time(day.moonset)}}</span>
+                <span *ngIf="day.moonrise.getTime() > day.moonset.getTime()"><img src="assets/icons/moonset.svg"> {{fmt.time(day.moonset)}} <img src="assets/icons/moonrise.svg"> {{fmt.time(day.moonrise)}}</span>
             </li>
             <li class="list-group-item" *ngIf="config.daily.showPressure">
                 {{day.pressure}} hPa
             </li>
             <li class="list-group-item" *ngIf="config.daily.showDewPoint">
-                {{day.dewPoint | number:'1.0-0'}} °C
+                {{fmt.temp(day.dewPoint)}}
             </li>
             <li class="list-group-item" *ngIf="config.daily.showClouds">
                 {{day.clouds}} %
             </li>
             <li class="list-group-item" *ngIf="config.daily.showUVIndex">
-                {{nbrFmt.format(day.uVIndex)}}
+                {{fmt.nbr(day.uVIndex)}}
             </li>
         </ul>
     </div>

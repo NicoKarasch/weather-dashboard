@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Config, ConfigService } from '../config.service';
+import { FormatService } from '../format.service';
 
 @Component({
   selector: 'app-clock',
@@ -12,16 +13,11 @@ import { Config, ConfigService } from '../config.service';
 })
 export class ClockComponent implements OnInit {
   config: Config;
-  dateFmt: Intl.DateTimeFormat;
-  timeFmt: Intl.DateTimeFormat;
+  fmt: FormatService = inject(FormatService);
   date = new Date;
 
   constructor(configService: ConfigService){
-    configService.get().subscribe(config => {
-      this.config = config;
-      this.dateFmt = new Intl.DateTimeFormat(config.language, {dateStyle: 'full'});
-      this.timeFmt = new Intl.DateTimeFormat(config.language, {timeStyle: config.clock.showSeconds ? 'medium' : 'short'});
-    });
+    configService.get().subscribe(config => this.config = config);
   }
 
   ngOnInit(): void {

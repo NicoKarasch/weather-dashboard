@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
 import { Config, ConfigService } from '../config.service';
+import { FormatService } from '../format.service';
 
 @Component({
   selector: 'app-daily',
@@ -15,24 +16,11 @@ import { Config, ConfigService } from '../config.service';
 export class DailyComponent implements OnInit {
   weather: WeatherData[] = [];
   weatherService: WeatherService = inject(WeatherService);
+  fmt: FormatService = inject(FormatService);
   config: Config;
-  weekdayFmt: Intl.DateTimeFormat;
-  todayStr: string;
-  dateFmt: Intl.DateTimeFormat;
-  timeFmt: Intl.DateTimeFormat;
-  nbrFmt: Intl.NumberFormat;
-  precFmt: Intl.NumberFormat;
   
   constructor(private configService: ConfigService){
-    configService.get().subscribe(config => {
-      this.config = config;
-      this.weekdayFmt = new Intl.DateTimeFormat(config.language, {weekday:'long'});
-      this.todayStr = new Intl.RelativeTimeFormat(config.language, {numeric: 'auto'}).format(0, 'day');
-      this.dateFmt = new Intl.DateTimeFormat(config.language, {day:'numeric', month:'numeric'});
-      this.timeFmt = new Intl.DateTimeFormat(config.language, {timeStyle:'short'});
-      this.nbrFmt = new Intl.NumberFormat(config.language);
-      this.precFmt = new Intl.NumberFormat(config.language, {maximumFractionDigits: 1});
-    });
+    configService.get().subscribe(config => this.config = config);
   }
 
   ngOnInit(): void {

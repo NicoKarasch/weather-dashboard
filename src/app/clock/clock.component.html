@@ -21,7 +21,7 @@
                 </g>
             </svg>
         </div>
-        <h1>{{timeFmt.format(date)}}</h1>
-        <div *ngIf="config.clock.showDate">{{dateFmt.format(date)}}</div>
+        <h1>{{fmt.time(date, config.clock.showSeconds)}}</h1>
+        <div *ngIf="config.clock.showDate">{{fmt.date(date, true)}}</div>
     </div>
 </div>
