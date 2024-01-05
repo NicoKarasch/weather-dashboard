@@ -78,7 +78,7 @@ export class AlertComponent implements OnInit {
   }
   private getSpan(from: Date, to = new Date): string {
     const span = from.getTime() - to.getTime();
-    const parts = Math.abs(span) < 1000*60*60 ? this.relTimeFmt.formatToParts(Math.ceil(span/1000/60), 'minute') : this.relTimeFmt.formatToParts(Math.round(span/1000/60/60), 'hour');
+    const parts = Math.abs(span) < 1000*60*60 ? this.relTimeFmt.formatToParts(Math.round(span/1000/60), 'minute') : this.relTimeFmt.formatToParts(Math.round(span/1000/60/60), 'hour');
     console.log(parts);
     return parts[1].value + parts[2].value;
   }
