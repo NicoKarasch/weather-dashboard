@@ -76,6 +76,7 @@ export class SunmoonComponent implements OnInit {
       if(set.getTime() == 0) return ""; //Sometimes moonset is unknown
 
       const diff = new Date(set.getTime() - cur + set.getTimezoneOffset()*60*1000);
+      console
       return diff.getTime() > 0 ? SunmoonComponent.timeFmt.format(diff) : "";
     }
   }

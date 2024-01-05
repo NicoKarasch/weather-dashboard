@@ -52,7 +52,12 @@ export class AlertComponent implements OnInit {
           break;
         case "rain": icon = "raindrops"; break;
         case "thunder": icon = "lightning-bolt"; break;
-        case "frost": icon = "snowflake"; break;
+        case "frost": 
+        case "icy surfaces": 
+          icon = "snowflake";
+          break;
+        case 'snow/ice':
+          icon = 'snow';
       }
     });
     return icon;
