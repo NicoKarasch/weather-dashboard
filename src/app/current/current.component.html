@@ -5,7 +5,7 @@
             <h1 class="float-start me-5 mb-0">
                 <img src="{{ 'assets/icons/openweathermap/' + currentWeather.icon + '.svg' }}" height="140" style="margin: -20px"> {{currentWeather.temperature | number: '1.0-0'}} °C
             </h1>
-            <p class="card-text"><strong>{{currentWeather.description}}</strong><br>{{locale.feelsLike}}: {{currentWeather.feelsLike | number: '1.0-0'}} °C</p>
+            <p class="card-text mb-1"><strong>{{currentWeather.description}}</strong><br>{{locale.feelsLike}}: {{currentWeather.feelsLike | number: '1.0-0'}} °C</p>
             <p class="card-text lead">{{currentWeather.summary}}</p>
         </div>
     </div>
