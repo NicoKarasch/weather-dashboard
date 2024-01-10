@@ -10,7 +10,6 @@ import { FormatService } from '../format.service';
 @Component({
   selector: 'app-hourly',
   standalone: true,
-  imports: [],
   templateUrl: './hourly.component.html',
   styleUrl: './hourly.component.css'
 })

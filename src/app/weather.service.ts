@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WeatherData } from './weatherdata';
 import { Alert } from './alert';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { ConfigService, Config, Locale } from './config.service';
 
 @Injectable({
@@ -18,6 +18,8 @@ export class WeatherService {
   private hourly: Subject<WeatherData[]> = new Subject;
   private daily: Subject<WeatherData[]> = new Subject;
   private alerts: Subject<Alert[]> = new Subject;
+  private status = new BehaviorSubject<Status>(Status.Uninitialized);
+  private error: Error;
 
   constructor(configService: ConfigService){
     configService.get().subscribe(config => this.config = config);
@@ -115,9 +117,14 @@ export class WeatherService {
           })
         });
         this.alerts.next(alerts);
+
+        this.status.next(Status.Initialized);
     
-        setTimeout(() => this.fetchData(), this.config.updateInterval*60*1000);
-      });
+      })
+      .catch(error => {
+        this.error = error;
+        this.status.next(this.status.getValue() == Status.Uninitialized ? Status.InitError : Status.Error);
+      }).finally(() => setTimeout(() => this.fetchData(), this.config.updateInterval*60*1000));
   }
 
 
@@ -135,6 +142,13 @@ export class WeatherService {
 
   getAlerts(): Subject<Alert[]> {
     return this.alerts;
+  }
+
+  getStatus(): BehaviorSubject<Status> {
+    return this.status;
+  }
+  getError(): Error {
+    return this.error;
   }
 
   getBeaufort(speed: number): number {
@@ -189,4 +203,8 @@ export class WeatherService {
     if(phase < 1)    return this.locale.moon_waningCrescent;
     return this.locale.moon_new;
   }
+}
+
+export enum Status {
+  Uninitialized, InitError, Initialized, Error
 }

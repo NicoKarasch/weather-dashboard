@@ -2,7 +2,7 @@
     "darkMode": true,
     "language": "de",
     "location": "Steglitz, Berlin",
-    "updateInterval": 30,
+    "updateInterval": 1,
     "openweathermap": {
         "appid": "92bf13ee6f955aac34d8f9be4c88777a",
         "lat": 52.459246596015404,

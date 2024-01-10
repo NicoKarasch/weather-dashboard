@@ -1,4 +1,5 @@
 <div class="container-fluid pt-3 bg-body h-100" [attr.data-bs-theme]="(config.darkMode ? 'dark' : 'light')">
+    <app-status/>
     <app-alert/>
     <div class="row">
         <app-current/><app-sunmoon *ngIf="config.sunMoon.show"/><app-clock *ngIf="config.clock.show"/>

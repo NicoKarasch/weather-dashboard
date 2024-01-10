@@ -1,0 +1,7 @@
+<div class="spinner-border text-primary float-start" role="status" *ngIf="status == states.Uninitialized">
+    <span class="visually-hidden">Loading...</span>
+</div>
+<div class="alert alert-danger float-start" role="alert" *ngIf="status == states.InitError">
+    <img src="./assets/icons/alert.svg" class="float-start" width="50">
+    <strong>Error while fetching initial weather data</strong><br>{{weatherService.getError()}}
+  </div>

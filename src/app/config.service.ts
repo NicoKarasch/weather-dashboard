@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, catchError, shareReplay, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class ConfigService {
 
   public get(): Observable<Config> {
     if(!this.config$){
-      this.config$ = this.http.get<Config>('assets/config.json').pipe(shareReplay(1));
+      this.config$ = this.http.get<Config>('assets/config.json').pipe(shareReplay(1)).pipe(catchError(this.showError));
       this.config$.subscribe(config => this.language = config.language);
     }
     return this.config$;
@@ -22,9 +22,14 @@ export class ConfigService {
 
   public getLocale(): Observable<Locale> {
     if(!this.locale$){
-      this.locale$ = this.http.get<Locale>('assets/locale/' + this.language + '.json').pipe(shareReplay(1));
+      this.locale$ = this.http.get<Locale>('assets/locale/' + this.language + '.json').pipe(shareReplay(1)).pipe(catchError(this.showError));
     }
     return this.locale$;
+  }
+
+  private showError(error: HttpErrorResponse){
+    alert('Failed to load config:\n' + error.message);
+    return throwError(() => error);
   }
 }
 

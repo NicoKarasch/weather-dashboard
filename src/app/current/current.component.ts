@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailComponent } from './detail/detail.component';
-import { WeatherService } from '../weather.service';
+import { Status, WeatherService } from '../weather.service';
 import { WeatherData } from '../weatherdata';
 import { Config, ConfigService, Locale } from '../config.service';
 import { FormatService } from '../format.service';
@@ -16,6 +16,8 @@ import { FormatService } from '../format.service';
 })
 export class CurrentComponent implements OnInit {
   config: Config;
+  status: Status;
+  states = Status;
   locale: Locale;
   currentWeather: WeatherData;
   weatherService: WeatherService = inject(WeatherService);
@@ -27,8 +29,7 @@ export class CurrentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.weatherService.getCurrent().subscribe(currentWeather => {
-      this.currentWeather = currentWeather;
-    });
+    this.weatherService.getCurrent().subscribe(currentWeather => this.currentWeather = currentWeather);
+    this.weatherService.getStatus().subscribe(status => this.status = status);
   }
 }

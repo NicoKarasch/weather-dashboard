@@ -1,5 +1,8 @@
 <div class="card h-100" *ngIf="currentWeather">
-    <div class="card-header">{{config.location}} <small>{{fmt.time(currentWeather.timeStamp)}}</small></div>
+    <div class="card-header hstack">
+        <div class="me-auto">{{config.location}} <small>{{fmt.time(currentWeather.timeStamp)}}</small></div>
+        <div *ngIf="status == states.Error"><img src="assets/icons/alert.svg" title="{{weatherService.getError()}}" width="25"><small class="text-danger">Failed to reload weather data. Will try again next interval.</small></div>
+    </div>
     <div class="card-body">
         <div class="clearfix">
             <h1 class="float-start me-5 mb-0">

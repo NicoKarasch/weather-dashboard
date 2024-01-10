@@ -7,11 +7,12 @@ import { ClockComponent } from './clock/clock.component';
 import { HourlyComponent } from './hourly/hourly.component';
 import { DailyComponent } from './daily/daily.component';
 import { Config, ConfigService } from './config.service';
+import { StatusComponent } from './status/status.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, AlertComponent, CurrentComponent, SunmoonComponent, ClockComponent, HourlyComponent, DailyComponent],
+  imports: [CommonModule, StatusComponent, AlertComponent, CurrentComponent, SunmoonComponent, ClockComponent, HourlyComponent, DailyComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
