@@ -49,7 +49,7 @@ export class FormatService {
         }else if(from < now){
           left = this.locale.left + ' ' + this.duration(now, to, DurationType.Short);
         }else{
-          this.locale.in + ' ' + this.duration(now, from, DurationType.Short) + ', ' + this.locale.for + ' ' + this.duration(from, to, DurationType.Short);
+          left = this.locale.in + ' ' + this.duration(now, from, DurationType.Short) + ', ' + this.locale.for + ' ' + this.duration(from, to, DurationType.Short);
         }
         return interval.toLocaleString(DateTime.TIME_SIMPLE) + ' (' + left + ')';
     }
