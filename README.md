@@ -10,7 +10,7 @@ I used the [vlane / Weather-Forecast-Dashboard](https://github.com/vlaine/Weathe
 
 ## Usage
 
-Grab the latest version from the releases page, change settings in `assets/config.json` to what you like and make everything available for a current browser of your choice.
+Grab the latest version from the releases page, copy `assets/config.json.example` to `assets/config.json`, change it's values to what you like and make everything available for a current browser of your choice.
 
 ### Language / Localization
 
