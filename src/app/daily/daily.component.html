@@ -1,4 +1,4 @@
-<div class="card-group" *ngIf="weather">
+<div class="card-group" *ngIf="weather.length">
     <ng-template [ngTemplateOutlet]="legend" *ngIf="config.daily.showLegendLeft"></ng-template>
     <div class="card h-100" *ngFor="let day of weather.slice(0, config.daily.days); first as isFirst">
         <div class="card-header hstack pe-3">
