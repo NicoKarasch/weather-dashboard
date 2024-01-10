@@ -1,27 +1,26 @@
 # WeatherDashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.6.
+A beautiful weather display for html kiosks. Made for [OpenWeatherMap](https://openweathermap.org/) with [Angular](https://github.com/angular/angular), [Bootstrap](https://github.com/twbs/bootstrap), [Chart.js](https://github.com/chartjs/Chart.js) and the very beautiful and animated [basmilius / weather-icons](https://github.com/basmilius/weather-icons). ❤
 
-## Development server
+![Screenshot of WeatherDashboard with dark and light mode](./screenshot.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Why?
 
-## Code scaffolding
+I used the [vlane / Weather-Forecast-Dashboard](https://github.com/vlaine/Weather-Forecast-Dashboard) for many years on a Raspberry Pi and liked it a lot! But because I wanted to learn Angular and to have little more decent and modern design, I started to code my own interpretation of a weather kiosk. Hope you like it.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+Grab the latest version from the releases page, change settings in `assets/config.json` to what you like and make everything available for a current browser of your choice.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Language / Localization
 
-## Running unit tests
+Currently english and german is supported out of the box, but feel free to add your prefered language. In the `assets/locale` directory you can find the language files. Copy and translate the `en.json` to your language (ISO 2-digits language code) and refer to your code in `language` inside `config.json`. Your language code must be a 'real' one, because it is also used for the OpenWeatherMap API and JS Intl API.
+Because Angulars built in I18n tools are very complex in my oppinion, I didn't used it all. It is not possible to add another locale after building. That's why I used this json approach.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Questions / Help?
 
-## Running end-to-end tests
+Just feel free to ask or post an issue, I try my best.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Development
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+This is a very basic Angular project, no rocket science used. Just feel free to fork, `npm install`, `ng serve` and make pull requests, I would love to see what (else) is possible or better with Angular. ;-)
