@@ -39,20 +39,23 @@ export class AlertComponent implements OnInit {
   getIcon(tags: string[]): string {
     let icon = "alert";
     tags.reverse().forEach(tag => {
-      switch(tag.toLowerCase()){
-        case "wind":
-        case "thunderstorm":
-          icon = "windsock";
-          break;
-        case "rain": icon = "raindrops"; break;
-        case "thunder": icon = "lightning-bolt"; break;
-        case "frost": 
-        case "icy surfaces": 
-          icon = "snowflake";
-          break;
-        case 'snow/ice':
-          icon = 'snow';
-      }
+      tag.split(' ').forEach(subtag => {
+        switch(subtag){
+          case "wind":
+          case "thunderstorm":
+            icon = "windsock";
+            break;
+          case "rain": icon = "raindrops"; break;
+          case "thunder": icon = "lightning-bolt"; break;
+          case "frost": 
+          case "icy surfaces": 
+            icon = "snowflake";
+            break;
+          case 'snow/ice':
+            icon = 'snow';
+            break;
+        }
+      })
     });
     return icon;
   }
