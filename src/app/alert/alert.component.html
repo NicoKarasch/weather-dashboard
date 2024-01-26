@@ -1,13 +1,28 @@
-<div class="alert alert-danger d-flex align-items-center" *ngFor="let alert of alerts; let i = index">
-    <img src="./assets/icons/{{getIcon(alert.tags)}}.svg">
-    <div>
-        <figure class="mb-0">
-            <blockquote class="blockquote">
-              <p>{{alert.message}}</p>
-            </blockquote>
-            <figcaption class="blockquote-footer mb-0">
-                {{times[i]}} - <cite title="Source Title">{{alert.from}}</cite>
-            </figcaption>
-          </figure>
-    </div>
-</div>
+<ng-template [ngIf]="config.alerts.ownRow" [ngIfElse]="inRow">
+  <div class="alert alert-danger d-flex align-items-center" *ngFor="let alert of alerts; let i = index">
+      <img src="./assets/icons/{{getIcon(alert.tags)}}.svg">
+      <div>
+          <figure class="mb-0">
+              <blockquote class="blockquote">
+                <p>{{alert.message}}</p>
+              </blockquote>
+              <figcaption class="blockquote-footer mb-0">
+                  {{times[i]}}<cite title="Source Title" *ngIf="config.alerts.showSender"> - {{alert.from}}</cite>
+              </figcaption>
+            </figure>
+      </div>
+  </div>
+</ng-template>
+<ng-template #inRow>
+  <div class="card h-100 bg-danger-subtle border-danger-subtle" *ngIf="alerts.length">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex bg-danger-subtle border-danger-subtle" *ngFor="let alert of alerts; let i = index">
+          <img src="./assets/icons/{{getIcon(alert.tags)}}.svg">
+          <div class="text-danger-emphasis">
+            {{alert.message}}<br>
+            <span class="small text-muted">{{times[i]}}<i *ngIf="config.alerts.showSender"> - {{alert.from}}</i></span>
+          </div>
+        </li>
+  </ul>
+  </div>
+</ng-template>

@@ -9,7 +9,9 @@
         "lon": -74.005833
     },
     "alerts": {
-        "show": true
+        "show": true,
+        "ownRow": true,
+        "showSender": false
     },
     "current": {
         "showWind": true,

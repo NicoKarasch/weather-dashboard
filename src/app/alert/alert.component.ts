@@ -9,6 +9,7 @@ import { DurationType, FormatService } from '../format.service';
   selector: 'app-alert',
   standalone: true,
   imports: [CommonModule],
+  host: {'class': 'col-3'},
   templateUrl: './alert.component.html',
   styleUrl: './alert.component.css'
 })

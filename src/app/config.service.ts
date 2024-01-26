@@ -56,6 +56,8 @@ export interface Openweathermap {
 
 export interface Alerts {
   show: boolean
+  ownRow: boolean
+  showSender: boolean
 }
 
 export interface Current {
