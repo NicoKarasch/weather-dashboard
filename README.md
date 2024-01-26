@@ -14,8 +14,8 @@ Grab the latest version from the releases page, copy `assets/config.json.example
 
 ### Language / Localization
 
-Currently english and german is supported out of the box, but it's easy to add your prefered language. In the `assets/locale` directory you can find the language files. Copy and translate the `en.json` to your language (ISO 2-digits language code) and refer to your code in `language` inside `config.json`. Your language code must be a 'real' one, because it is also used for the OpenWeatherMap API and JS Intl API.
-Because Angulars built in I18n tools are very complex in my opinion, I didn't used it at all. Also, it is not possible to add another locale after building. That's why I used this json approach.
+Currently english and german is supported out of the box, but it's easy to add your prefered language. In the `assets/locale` directory you can find the language files. Copy and translate the `en.json` to your language (ISO 2-digits language code) and refer it in `language` inside `config.json`. Your language code must be a "real" one, because it is also used for the OpenWeatherMap API and JS Intl API.
+Because Angulars' built in I18n tools are very complex in my opinion, I didn't used it at all. Also, it is not possible to add another locale after building. That's why I used this json approach.
 
 ## Questions / Help?
 
