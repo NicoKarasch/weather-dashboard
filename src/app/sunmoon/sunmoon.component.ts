@@ -37,7 +37,9 @@ export class SunmoonComponent implements OnInit {
       setInterval(() => this.updateLefts(), 1000);
   }
   
-  /*static*/ getDuration(from: Date, to: Date): string {
+  getDuration(from: Date, to: Date): string {
+    if(!from || !to) return '&nbsp;';
+    if(from.getTime() > to.getTime()) return this.fmt.duration(to, from, DurationType.Short);
     return this.fmt.duration(from, to, DurationType.Short);
   }
 

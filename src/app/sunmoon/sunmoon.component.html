@@ -17,7 +17,7 @@
                 <div class="progress" role="progressbar">
                     <div class="progress-bar bg-secondary" style="width: {{moonPerc}}%">{{moonLeft}}</div>
                 </div>
-                <small>{{currentWeather.moonset.getTime() > 0 ? getDuration(currentWeather.moonrise, currentWeather.moonset) : '&nbsp;'}}</small>
+                <small>{{getDuration(currentWeather.moonrise, currentWeather.moonset)}}</small>
             </div>
             <div *ngIf="currentWeather.moonrise.getTime() > currentWeather.moonset.getTime(); then moonriseIcon else moonsetIcon"></div>
         </li>
