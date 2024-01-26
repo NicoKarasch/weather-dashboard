@@ -2,3 +2,7 @@ img {
     margin: -.4%;
     width: 70px;
 }
+
+:host:empty {
+    display: none;
+}

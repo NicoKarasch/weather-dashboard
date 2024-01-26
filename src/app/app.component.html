@@ -1,8 +1,8 @@
 <div class="container-fluid pt-3 bg-body h-100" [attr.data-bs-theme]="(config.darkMode ? 'dark' : 'light')">
     <app-status/>
-    <app-alert/>
+    <app-alert *ngIf="config.alerts.ownRow"/>
     <div class="row">
-        <app-current/><app-sunmoon *ngIf="config.sunMoon.show"/><app-clock *ngIf="config.clock.show"/>
+        <app-current/><app-alert *ngIf="!config.alerts.ownRow"/><app-sunmoon *ngIf="config.sunMoon.show"/><app-clock *ngIf="config.clock.show"/>
     </div>
     <app-hourly *ngIf="config.hourly.show"/>
     <app-daily *ngIf="config.daily.show"/>
