@@ -10,12 +10,12 @@ I used the [vlane / Weather-Forecast-Dashboard](https://github.com/vlaine/Weathe
 
 ## Usage
 
-Grab the latest version from the releases page, copy `assets/config.json.example` to `assets/config.json`, change it's values to what you like and make everything available for a current browser of your choice.
+Grab the latest version from the releases page, copy `assets/config.json.example` to `assets/config.json`, change its values to what you like and make everything available for a current browser of your choice.
 
 ### Language / Localization
 
-Currently english and german is supported out of the box, but feel free to add your prefered language. In the `assets/locale` directory you can find the language files. Copy and translate the `en.json` to your language (ISO 2-digits language code) and refer to your code in `language` inside `config.json`. Your language code must be a 'real' one, because it is also used for the OpenWeatherMap API and JS Intl API.
-Because Angulars built in I18n tools are very complex in my oppinion, I didn't used it all. It is not possible to add another locale after building. That's why I used this json approach.
+Currently english and german is supported out of the box, but it's easy to add your prefered language. In the `assets/locale` directory you can find the language files. Copy and translate the `en.json` to your language (ISO 2-digits language code) and refer to your code in `language` inside `config.json`. Your language code must be a 'real' one, because it is also used for the OpenWeatherMap API and JS Intl API.
+Because Angulars built in I18n tools are very complex in my opinion, I didn't used it at all. Also, it is not possible to add another locale after building. That's why I used this json approach.
 
 ## Questions / Help?
 
